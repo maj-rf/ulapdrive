@@ -30,10 +30,15 @@
     "@prisma/client": "^5.22.0",
     "@quixo3/prisma-session-store": "^3.1.13",
     "@types/express-session": "^1.18.0",
+    "@types/passport": "^1.0.17",
+    "@types/passport-local": "^1.0.38",
+    "argon2": "^0.41.1",
     "express": "^4.21.1",
     "express-async-errors": "^3.1.1",
     "express-session": "^1.18.1",
-    "http-errors": "^2.0.0"
+    "http-errors": "^2.0.0",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0"
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma"
