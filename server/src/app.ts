@@ -1,33 +1,26 @@
 import express from 'express';
 import 'express-async-errors';
-import { errorHandler } from './middlewares/middlewares';
-import expressSession from 'express-session';
-import { PrismaSessionStore } from '@quixo3/prisma-session-store';
-import { db } from './db/db';
+import * as middlewares from './middlewares/middlewares';
+import passport from 'passport';
+import { sessionHandler } from './config/sessionConfig';
+import { authRouter } from './routes/v1/auth';
+import { filesRouter } from './routes/v1/files';
+import './middlewares/strategies';
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(
-  expressSession({
-    cookie: {
-      maxAge: 7 * 24 * 60 * 60 * 1000, // ms
-    },
-    secret: 'a santa at nasa',
-    resave: true,
-    saveUninitialized: true,
-    store: new PrismaSessionStore(db, {
-      checkPeriod: 2 * 60 * 1000, //ms
-      dbRecordIdIsSessionId: true,
-      dbRecordIdFunction: undefined,
-    }),
-  }),
-);
+app.use(sessionHandler);
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('/', (_req, res) => {
   res.json({ message: 'welcome to ulapdrive api' });
 });
 
-app.use(errorHandler);
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/files', middlewares.isAuthenticated, filesRouter);
+app.use(middlewares.unknownEndpoint);
+app.use(middlewares.errorHandler);
 
 export default app;

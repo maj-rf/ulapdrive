@@ -1,5 +1,5 @@
 import { ErrorRequestHandler, Request, Response, NextFunction } from 'express';
-import { isHttpError } from 'http-errors';
+import createHttpError, { isHttpError } from 'http-errors';
 
 export const errorHandler: ErrorRequestHandler = (
   error: unknown,
@@ -16,4 +16,21 @@ export const errorHandler: ErrorRequestHandler = (
   }
   res.status(status).json({ error: errorMessage });
   next();
+};
+
+export const unknownEndpoint = (
+  req: Request,
+  _res: Response,
+  next: NextFunction,
+) => {
+  next(createHttpError(404, `Not Found - ${req.originalUrl}`));
+};
+
+export const isAuthenticated = (
+  req: Request,
+  _res: Response,
+  next: NextFunction,
+) => {
+  if (req.isAuthenticated()) next();
+  else throw createHttpError(401, 'Unauthenticated');
 };

@@ -1,0 +1,48 @@
+import { Request, Response } from 'express';
+import { db } from '../db/db';
+import createHttpError from 'http-errors';
+import * as argon2 from 'argon2';
+
+export const register = async (req: Request, res: Response) => {
+  const { email, displayName, password, confirmPassword } = req.body;
+  if (!email || !displayName || !password) {
+    throw createHttpError(401, 'Please provide all fields');
+  }
+  if (password !== confirmPassword) {
+    throw createHttpError(401, 'Passwords do not match');
+  }
+
+  const emailExists = await db.user.findFirst({ where: { email } });
+  if (emailExists) throw createHttpError(400, 'Email is already in use.');
+  const passwordHash = await argon2.hash(password);
+  const createdUser = await db.user.create({
+    data: {
+      email,
+      displayName,
+      password: passwordHash,
+    },
+  });
+  res.status(200).json({
+    id: createdUser.id,
+    displayName: createdUser.displayName,
+    email: createdUser.email,
+  });
+};
+
+export const login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  if (!email || !password)
+    throw createHttpError(401, 'Please provide all fields');
+  const user = await db.user.findUnique({
+    where: {
+      email,
+    },
+  });
+  if (!user) throw createHttpError(401, 'User not found. Please register.');
+  const passwordCorrect = user
+    ? await argon2.verify(user.password, password)
+    : false;
+  if (!passwordCorrect) throw createHttpError(401, 'Incorrect password.');
+  const { password: _pw, ...publicUser } = user;
+  res.status(201).json(publicUser);
+};
