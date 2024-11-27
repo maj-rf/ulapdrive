@@ -5,25 +5,20 @@ import { Link } from 'react-router';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-const RegisterSchema: ZodType<FormData> = z
-  .object({
-    email: z.string().email(),
-    displayName: z.string().min(3).max(16),
-    password: z.string().min(8, { message: 'Password is too short' }),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords do not match. Try again',
-    path: ['confirmPassword'],
-  });
+const LoginSchema: ZodType<FormData> = z.object({
+  email: z.string().email(),
+  password: z.string().min(8, { message: 'Password is too short' }),
+});
 
-export const Register = () => {
+export const Login = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm<FormData>({ resolver: zodResolver(RegisterSchema) });
+  } = useForm<FormData>({
+    resolver: zodResolver(LoginSchema),
+  });
 
   const onSubmit = async (data: FormData) => {
     console.log(data);
@@ -38,9 +33,7 @@ export const Register = () => {
             onSubmit={handleSubmit(onSubmit)}
             className="flex-1 max-w-md mx-auto space-y-5 border px-2 py-4 bg-white rounded-md"
           >
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 ">
-              Create an account
-            </h1>
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 ">Login</h1>
             <FormField
               type="email"
               placeholder="your_email@gmail.com"
@@ -49,14 +42,7 @@ export const Register = () => {
               error={errors.email}
               label="Email Address"
             />
-            <FormField
-              type="text"
-              placeholder="Ted Lasso"
-              name="displayName"
-              register={register}
-              error={errors.displayName}
-              label="Display Name"
-            />
+
             <FormField
               type="password"
               placeholder="Password"
@@ -65,21 +51,13 @@ export const Register = () => {
               error={errors.password}
               label="Password"
             />
-            <FormField
-              type="password"
-              placeholder="Confirm Password"
-              name="confirmPassword"
-              register={register}
-              error={errors.confirmPassword}
-              label="Confirm Password"
-            />
             <button className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
               Submit
             </button>
             <p>
-              Already have an account?{' '}
-              <Link to="/login" className="font-medium underline text-blue-400">
-                Login
+              Don't have an account?{' '}
+              <Link to="/register" className="font-medium underline text-blue-400">
+                Register
               </Link>
             </p>
           </form>

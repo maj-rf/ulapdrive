@@ -8,6 +8,7 @@ import { RootLayout } from './components/RootLayout';
 import ErrorPage from './pages/ErrorPage';
 
 import { Register } from './pages/Register';
+import { Login } from './pages/Login';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,6 +28,10 @@ export const routesConfig: RouteObject[] = [
   {
     path: '/register',
     element: <Register />,
+  },
+  {
+    path: '/login',
+    element: <Login />,
   },
 ];
 const router = createBrowserRouter(routesConfig);
