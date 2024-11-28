@@ -17,15 +17,17 @@ const RegisterSchema: ZodType<FormData> = z
     path: ['confirmPassword'],
   });
 
+type RegisterFormValues = z.infer<typeof RegisterSchema>;
+
 export const Register = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm<FormData>({ resolver: zodResolver(RegisterSchema) });
+  } = useForm<RegisterFormValues>({ resolver: zodResolver(RegisterSchema) });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: RegisterFormValues) => {
     console.log(data);
   };
 

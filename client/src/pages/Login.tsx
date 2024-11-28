@@ -10,17 +10,19 @@ const LoginSchema: ZodType<FormData> = z.object({
   password: z.string().min(8, { message: 'Password is too short' }),
 });
 
+type LoginFormValues = z.infer<typeof LoginSchema>;
+
 export const Login = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm<FormData>({
+  } = useForm<LoginFormValues>({
     resolver: zodResolver(LoginSchema),
   });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: LoginFormValues) => {
     console.log(data);
   };
 
