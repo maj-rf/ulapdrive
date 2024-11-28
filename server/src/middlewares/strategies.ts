@@ -15,8 +15,8 @@ passport.deserializeUser(async (id: number, done) => {
   try {
     const user = await db.user.findFirst({ where: { id } });
     if (!user) return done(createHttpError(401, 'User not found.'), false);
-
-    return done(null, user);
+    const { password: _pw, ...publicUser } = user;
+    return done(null, publicUser);
   } catch (error) {
     return done(error);
   }
