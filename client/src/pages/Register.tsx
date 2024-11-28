@@ -1,11 +1,21 @@
 import { useForm } from 'react-hook-form';
-import { FormField } from '../components/FormField';
-import { FormData } from '../types/types';
-import { Link } from 'react-router';
-import { z, ZodType } from 'zod';
+import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  Form,
+  FormField,
+  FormControl,
+  FormItem,
+  FormDescription,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Link } from 'react-router';
+import { AuthLayout } from '@/components/AuthLayout';
 
-const RegisterSchema: ZodType<FormData> = z
+const RegisterSchema = z
   .object({
     email: z.string().email(),
     displayName: z.string().min(3).max(16),
@@ -19,74 +29,98 @@ const RegisterSchema: ZodType<FormData> = z
 
 type RegisterFormValues = z.infer<typeof RegisterSchema>;
 
-export const Register = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setError,
-  } = useForm<RegisterFormValues>({ resolver: zodResolver(RegisterSchema) });
+const RegisterForm = () => {
+  const form = useForm<RegisterFormValues>({
+    resolver: zodResolver(RegisterSchema),
+    defaultValues: {
+      email: 'your_email@gmail.com',
+      password: '',
+    },
+  });
 
   const onSubmit = async (data: RegisterFormValues) => {
     console.log(data);
   };
 
   return (
-    <section className="bg-gray-50 h-screen">
-      <div className="flex flex-col items-center justify-center px-6 py-10 mx-auto md:h-full lg:py-0">
-        <h1 className="flex items-center mb-6 text-2xl font-semibold text-gray-900">☁️ulap☁️</h1>
-        <div className="w-full">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex-1 max-w-md mx-auto space-y-5 border px-2 py-4 bg-white rounded-md"
-          >
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 ">
-              Create an account
-            </h1>
-            <FormField
-              type="email"
-              placeholder="your_email@gmail.com"
-              name="email"
-              register={register}
-              error={errors.email}
-              label="Email Address"
-            />
-            <FormField
-              type="text"
-              placeholder="Ted Lasso"
-              name="displayName"
-              register={register}
-              error={errors.displayName}
-              label="Display Name"
-            />
-            <FormField
-              type="password"
-              placeholder="Password"
-              name="password"
-              register={register}
-              error={errors.password}
-              label="Password"
-            />
-            <FormField
-              type="password"
-              placeholder="Confirm Password"
-              name="confirmPassword"
-              register={register}
-              error={errors.confirmPassword}
-              label="Confirm Password"
-            />
-            <button className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-              Submit
-            </button>
-            <p>
-              Already have an account?{' '}
-              <Link to="/login" className="font-medium underline text-blue-400">
-                Login
-              </Link>
-            </p>
-          </form>
-        </div>
-      </div>
-    </section>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex-1 max-w-md mx-auto space-y-5 border bg-gray-50 p-4 rounded-md"
+      >
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input placeholder="" {...field} />
+              </FormControl>
+              <FormDescription></FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="displayName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Display Name</FormLabel>
+              <FormControl>
+                <Input placeholder="" {...field} />
+              </FormControl>
+              <FormDescription></FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input placeholder="" {...field} type="password" />
+              </FormControl>
+              <FormDescription></FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Confirm Password</FormLabel>
+              <FormControl>
+                <Input placeholder="" {...field} type="password" />
+              </FormControl>
+              <FormDescription></FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button className="w-full">Submit</Button>
+        <p>
+          Already have an account?{' '}
+          <Link to="/login" className="font-medium underline text-blue-400">
+            Login
+          </Link>
+        </p>
+      </form>
+    </Form>
+  );
+};
+
+export const Register = () => {
+  return (
+    <AuthLayout>
+      <RegisterForm />
+    </AuthLayout>
   );
 };
