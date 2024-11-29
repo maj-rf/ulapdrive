@@ -1,15 +1,15 @@
 import { useQueryClient, useMutation } from '@tanstack/react-query';
-import { login } from '@/services/authService';
+import { register } from '@/services/authService';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
-export function useLogin() {
+export function useRegister() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: login,
+    mutationFn: register,
     onSuccess: (user) => {
       queryClient.setQueryData(['user'], user);
-      navigate('/');
+      navigate('/login');
     },
     onError: (error) => {
       toast.error(error.message);

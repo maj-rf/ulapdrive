@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Link } from 'react-router';
 import { AuthLayout } from '@/components/AuthLayout';
+import { useRegister } from '@/hooks/useRegister';
 
 const RegisterSchema = z
   .object({
@@ -33,13 +34,16 @@ const RegisterForm = () => {
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      email: 'your_email@gmail.com',
+      email: '',
       password: '',
+      displayName: '',
+      confirmPassword: '',
     },
   });
+  const registerMutation = useRegister();
 
   const onSubmit = async (data: RegisterFormValues) => {
-    console.log(data);
+    registerMutation.mutate(data);
   };
 
   return (
@@ -105,7 +109,9 @@ const RegisterForm = () => {
           )}
         />
 
-        <Button className="w-full">Submit</Button>
+        <Button className="w-full" disabled={registerMutation.isPending}>
+          Submit
+        </Button>
         <p>
           Already have an account?{' '}
           <Link to="/login" className="font-medium underline text-blue-400">

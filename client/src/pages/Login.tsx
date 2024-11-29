@@ -14,6 +14,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router';
 import { AuthLayout } from '@/components/AuthLayout';
+import { useLogin } from '@/hooks/useLogin';
 
 const LoginSchema = z.object({
   email: z.string().email(),
@@ -26,13 +27,15 @@ const LoginForm = () => {
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      email: 'your_email@gmail.com',
+      email: '',
       password: '',
     },
   });
 
+  const loginMutation = useLogin();
+
   const onSubmit = async (data: LoginFormValues) => {
-    console.log(data);
+    loginMutation.mutate({ email: data.email, password: data.password });
   };
 
   return (
@@ -69,7 +72,9 @@ const LoginForm = () => {
             </FormItem>
           )}
         />
-        <Button className="w-full">Submit</Button>
+        <Button className="w-full" disabled={loginMutation.isPending}>
+          Submit
+        </Button>
         <p>
           Don't have an account?{' '}
           <Link to="/register" className="font-medium underline text-blue-400">
