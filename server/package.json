@@ -29,6 +29,7 @@
   "dependencies": {
     "@prisma/client": "^5.22.0",
     "@quixo3/prisma-session-store": "^3.1.13",
+    "@types/cors": "^2.8.17",
     "@types/express-session": "^1.18.0",
     "@types/passport": "^1.0.17",
     "@types/passport-local": "^1.0.38",

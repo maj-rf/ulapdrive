@@ -6,8 +6,11 @@ import { sessionHandler } from './config/sessionConfig';
 import { authRouter } from './routes/v1/auth';
 import { filesRouter } from './routes/v1/files';
 import './middlewares/strategies';
+import { corsOptions } from './config/config';
+import cors from 'cors';
 
 const app = express();
+app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(sessionHandler);

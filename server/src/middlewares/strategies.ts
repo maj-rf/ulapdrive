@@ -6,12 +6,10 @@ import * as argon2 from 'argon2';
 import { PublicUser } from '../types/types';
 
 passport.serializeUser((user, done) => {
-  console.log(`Serializing user:${(user as PublicUser).displayName}\n`);
   done(null, (user as PublicUser).id);
 });
 
 passport.deserializeUser(async (id: number, done) => {
-  console.log('Deserializing\n');
   try {
     const user = await db.user.findFirst({ where: { id } });
     if (!user) return done(createHttpError(401, 'User not found.'), false);
@@ -24,8 +22,6 @@ passport.deserializeUser(async (id: number, done) => {
 
 export default passport.use(
   new Strategy({ usernameField: 'email' }, async (email, password, done) => {
-    console.log(`Username: ${email}`);
-    console.log(`Password: ${password}`);
     try {
       const user = await db.user.findFirst({ where: { email } });
       // throw Error here so next() will point to errorHandler
