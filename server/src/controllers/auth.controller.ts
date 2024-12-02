@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { db } from '../db/db';
 import createHttpError from 'http-errors';
 import * as argon2 from 'argon2';
@@ -45,4 +45,20 @@ export const login = async (req: Request, res: Response) => {
   if (!passwordCorrect) throw createHttpError(401, 'Incorrect password.');
   const { password: _pw, ...publicUser } = user;
   res.status(201).json(publicUser);
+};
+
+export const logout = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  res.clearCookie('connect.sid');
+  req.session.destroy(function (err) {
+    if (err) return next(err);
+  });
+  res.json({ message: 'Success logout' });
+};
+
+export const me = (req: Request, res: Response) => {
+  res.json(req.user);
 };
