@@ -1,4 +1,4 @@
-import { FormData } from '@/types/types';
+import { FormData, PublicUser } from '@/types/types';
 import { API_URL } from './api';
 
 export const register = async (user: FormData) => {
@@ -14,11 +14,10 @@ export const register = async (user: FormData) => {
     }),
     headers: { 'Content-type': 'application/json' },
   });
-  if (!res.ok) {
-    const error = await res.json();
-    throw new Error(error.error);
-  }
   const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error); // this will parse the JSON response body
+  }
   return data;
 };
 
@@ -33,10 +32,35 @@ export const login = async (user: Partial<FormData>) => {
     }),
     headers: { 'Content-type': 'application/json' },
   });
-  if (!res.ok) {
-    const error = await res.json();
-    if (error) throw new Error(error.error);
-  }
   const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error); // this will parse the JSON response body
+  }
   return data;
+};
+
+export const me = async (): Promise<PublicUser> => {
+  const res = await fetch(`${API_URL}/auth/me`, {
+    mode: 'cors',
+    credentials: 'include',
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error); // this will parse the JSON response body
+  }
+  return data;
+};
+
+export const logout = async () => {
+  const res = await fetch(`${API_URL}/auth/logout`, {
+    mode: 'cors',
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-type': 'application/json' },
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error); // this will parse the JSON response body
+  }
+  return data.message;
 };

@@ -9,6 +9,9 @@ import ErrorPage from './pages/ErrorPage';
 
 import { Register } from './pages/Register';
 import { Login } from './pages/Login';
+import { Home } from './pages/Home';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { Toaster } from 'sonner';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,8 +25,18 @@ const queryClient = new QueryClient({
 export const routesConfig: RouteObject[] = [
   {
     path: '/',
-    element: <RootLayout />,
+    element: (
+      <ProtectedRoute>
+        <RootLayout />
+      </ProtectedRoute>
+    ),
     errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+    ],
   },
   {
     path: '/register',
@@ -40,6 +53,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
+      <Toaster richColors />
     </QueryClientProvider>
   </StrictMode>,
 );
