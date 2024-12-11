@@ -1,7 +1,7 @@
 import expressSession from 'express-session';
 import { env } from '../config/config';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
-import { db } from '../db/db';
+import { db } from '../services/db';
 import { RequestHandler } from 'express';
 
 export const sessionHandler: RequestHandler = expressSession({
