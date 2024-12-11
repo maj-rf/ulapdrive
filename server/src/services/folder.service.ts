@@ -17,10 +17,11 @@ export async function deleteFolder(id: string) {
   });
 }
 
-export async function updateFolder(id: string, name: string) {
+export async function updateFolder(id: string, ownerId: number, name: string) {
   return await db.folder.update({
     where: {
       id,
+      ownerId,
     },
     data: {
       name,
@@ -30,4 +31,8 @@ export async function updateFolder(id: string, name: string) {
 
 export async function getRootFolders(ownerId: number) {
   return await db.folder.findMany({ where: { ownerId } });
+}
+
+export async function getUserFolder(ownerId: number, id: string) {
+  return await db.folder.findUnique({ where: { ownerId, id } });
 }
