@@ -9,11 +9,9 @@ export async function createFolder(ownerId: number, name: string) {
   });
 }
 
-export async function deleteFolder(id: string) {
+export async function deleteFolder(id: string, ownerId: number) {
   return await db.folder.delete({
-    where: {
-      id,
-    },
+    where: { id, ownerId },
   });
 }
 

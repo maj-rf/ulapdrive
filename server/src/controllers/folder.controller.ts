@@ -10,7 +10,7 @@ export const createUserFolder: RequestHandler = async (req, res) => {
   const { name } = req.body;
   const ownerId = req.user?.id;
   const folder = await folderService.createFolder(Number(ownerId), name);
-  res.json(folder);
+  res.status(201).json(folder);
 };
 
 export const getUserFolder: RequestHandler = async (req, res) => {
@@ -31,6 +31,16 @@ export const updateUserFolder: RequestHandler = async (req, res) => {
     id as string,
     Number(ownerId),
     name,
+  );
+  res.json(folder);
+};
+
+export const deleteUserFolder: RequestHandler = async (req, res) => {
+  const { id } = req.params;
+  const ownerId = req.user?.id;
+  const folder = await folderService.deleteFolder(
+    id as string,
+    Number(ownerId),
   );
   res.json(folder);
 };

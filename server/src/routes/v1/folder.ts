@@ -15,3 +15,4 @@ folderRouter.patch(
   validateData(folderSchema),
   folderController.updateUserFolder,
 );
+folderRouter.delete('/:id', folderController.deleteUserFolder);
