@@ -32,3 +32,9 @@ export const deleteFromCloud = async (url: string) => {
   const res = await uploader.destroy(public_id);
   return res;
 };
+
+export const createCloudFolderForUser = async (id: number) => {
+  if (!id) return;
+  await cloudinary.api.create_folder(`ulapdrive/${id.toString()}`);
+  return;
+};
