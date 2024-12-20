@@ -1,7 +1,7 @@
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { ErrorRequestHandler, Request, Response, NextFunction } from 'express';
 import createHttpError, { isHttpError } from 'http-errors';
-import { uploadToCloud } from '../utils/uploadUtil';
+
 const handlePrismaError = (err: PrismaClientKnownRequestError) => {
   switch (err.code) {
     case 'P2002':
@@ -70,22 +70,4 @@ export const isAuthenticated = (
 ) => {
   if (req.isAuthenticated()) next();
   else throw createHttpError(401, 'Unauthenticated');
-};
-
-export const uploadFile = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  const file = req.file as Express.Multer.File;
-  if (!file) {
-    res.locals.fileDetails = undefined;
-    return next();
-  }
-  const base64 = Buffer.from(file.buffer).toString('base64');
-  const dataURI = `data:${file.mimetype};base64,${base64}`;
-  const fileDetails = await uploadToCloud(dataURI);
-  // use locals filedetails to add file URL to db
-  res.locals.fileDetails = fileDetails;
-  next();
 };
