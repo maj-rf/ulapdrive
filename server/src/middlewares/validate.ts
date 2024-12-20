@@ -19,3 +19,21 @@ export function validateData(schema: AnyZodObject) {
     }
   };
 }
+
+export function validateUpload(schema: AnyZodObject) {
+  return (req: Request, _res: Response, next: NextFunction) => {
+    try {
+      schema.parse({ file: req.file });
+      return next();
+    } catch (error) {
+      if (error instanceof ZodError) {
+        const errorMessages = error.errors
+          .map((issue) => issue.message)
+          .join(', ');
+        return next(createHttpError(401, errorMessages));
+      } else {
+        return next(error);
+      }
+    }
+  };
+}
