@@ -50,6 +50,7 @@ model File {
   mimeType  String
   size      Int
   ownerId   Int
+  url       String
   owner     User     @relation(fields: [ownerId], references: [id])
   folderId  String
   folder    Folder   @relation(fields: [folderId], references: [id])
