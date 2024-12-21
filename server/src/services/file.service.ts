@@ -19,6 +19,7 @@ export async function addFile(
   name: string,
   mimeType: string,
   size: number,
+  url: string,
 ) {
   return await db.file.create({
     data: {
@@ -27,11 +28,11 @@ export async function addFile(
       name,
       mimeType,
       size,
+      url,
     },
   });
 }
 
-// TODO: use cloud delete function to sync with cloud.
 export async function deleteFile(
   folderId: string,
   ownerId: number,

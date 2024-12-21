@@ -17,7 +17,7 @@ const handlePrismaError = (err: PrismaClientKnownRequestError) => {
       // handling invalid data errors
       return {
         status: 400,
-        message: `Invalid input data: ${err.meta?.target}`,
+        message: `Please remove related data first. i.e files in folder`,
       };
     case 'P2025':
       return {

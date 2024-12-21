@@ -19,17 +19,19 @@ export const upload = multer({ storage });
 
 export const uploadToCloud = async (fileString: string, ownerId: number) => {
   const { uploader } = cloudinary;
+  cloudinary.utils.url();
   const res = await uploader.upload(fileString, {
     folder: `ulapdrive/${ownerId.toString()}`,
   });
-  return res;
+  const url = cloudinary.utils.url(res.public_id, { flags: 'attachment' });
+  return url;
 };
 
 export const deleteFromCloud = async (url: string) => {
   const { uploader } = cloudinary;
   const parsedUrl = new URL(url);
   const pathComponents = parsedUrl.pathname.split('/');
-  const lastSegment = pathComponents.at(-1) as string;
+  const lastSegment = pathComponents.slice(-3).join('/');
   const public_id = lastSegment.replace(/\.[^/.]+$/, '');
   const res = await uploader.destroy(public_id);
   return res;
