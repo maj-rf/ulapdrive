@@ -12,6 +12,7 @@ import { Login } from './pages/Login';
 import { Home } from './pages/Home';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Toaster } from 'sonner';
+import { FolderFiles } from './components/FolderFiles';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,8 +34,14 @@ export const routesConfig: RouteObject[] = [
     errorElement: <ErrorPage />,
     children: [
       {
-        index: true,
         element: <Home />,
+        children: [
+          { index: true, element: <div>Click some folder</div> },
+          {
+            path: '/:folderId',
+            element: <FolderFiles />,
+          },
+        ],
       },
     ],
   },

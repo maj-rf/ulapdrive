@@ -1,8 +1,9 @@
 import { Loading } from '@/components/Loading';
 import { useMe } from '@/hooks/useMe';
-import { Navigate } from 'react-router';
+import { Navigate, Outlet } from 'react-router';
 import { Button } from '@/components/ui/button';
 import { useLogout } from '@/hooks/useLogout';
+import { FolderSideBar } from '@/components/FolderSideBar';
 
 export const Home = () => {
   const { data, isLoading } = useMe();
@@ -17,6 +18,10 @@ export const Home = () => {
     <div>
       <h1>Hello, {data.displayName}</h1>
       <Button onClick={handleLogout}>Logout</Button>
+      <div className="grid grid-cols-2">
+        <FolderSideBar userId={data.id} />
+        <Outlet />
+      </div>
     </div>
   );
 };
