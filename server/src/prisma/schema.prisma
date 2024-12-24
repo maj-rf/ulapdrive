@@ -12,13 +12,50 @@ model Session {
   sid       String   @unique
   data      String   @db.Text
   expiresAt DateTime
+
+  @@map("sessions")
 }
 
 model User {
+  // User can have manu folders and files
   id          Int      @id @default(autoincrement())
   displayName String
   email       String   @unique
   password    String
+  folders     Folder[]
+  files       File[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Folder {
+  // A folder belongs to a user and can contain manu files
+  id        String   @id @default(uuid())
+  name      String
+  ownerId   Int
+  owner     User     @relation(fields: [ownerId], references: [id])
+  files     File[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("folders")
+}
+
+model File {
+  // A file belongs to a user and a folder
+  id        String   @id @default(uuid())
+  name      String
+  mimeType  String
+  size      Int
+  ownerId   Int
+  url       String
+  owner     User     @relation(fields: [ownerId], references: [id])
+  folderId  String
+  folder    Folder   @relation(fields: [folderId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("files")
 }

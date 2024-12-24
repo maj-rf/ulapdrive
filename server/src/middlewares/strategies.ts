@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy } from 'passport-local';
-import { db } from '../db/db';
+import { db } from '../services/db';
 import createHttpError from 'http-errors';
 import * as argon2 from 'argon2';
 import { PublicUser } from '../types/types';

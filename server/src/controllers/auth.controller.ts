@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import createHttpError from 'http-errors';
 import * as argon2 from 'argon2';
-import * as userQueries from '../db/user.queries';
+import * as userService from '../services/user.service';
 export const register = async (req: Request, res: Response) => {
   const { email, displayName, password } = req.body;
-  const emailExists = await userQueries.findUserByEmail(email);
+  const emailExists = await userService.findUserByEmail(email);
   if (emailExists) throw createHttpError(400, 'Email is already in use.');
   const passwordHash = await argon2.hash(password);
-  const createdUser = await userQueries.createUser(
+  const createdUser = await userService.createUser(
     email,
     displayName,
     passwordHash,
@@ -21,7 +21,7 @@ export const register = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  const user = await userQueries.findUserByEmail(email);
+  const user = await userService.findUserByEmail(email);
   if (!user) throw createHttpError(401, 'User not found. Please register.');
   const passwordCorrect = user
     ? await argon2.verify(user.password, password)
