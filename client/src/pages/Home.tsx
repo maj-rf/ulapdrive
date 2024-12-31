@@ -3,7 +3,7 @@ import { useMe } from '@/hooks/useMe';
 import { Navigate, Outlet } from 'react-router';
 import { Button } from '@/components/ui/button';
 import { useLogout } from '@/hooks/useLogout';
-import { FolderSideBar } from '@/components/FolderSideBar';
+import { FolderSideBar } from '@/components/folders/FolderSideBar';
 
 export const Home = () => {
   const { data, isLoading } = useMe();

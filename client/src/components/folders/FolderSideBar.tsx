@@ -1,7 +1,8 @@
 import { getRootFolders } from '@/services/folderService';
 import { useQuery } from '@tanstack/react-query';
-import { Loading } from './Loading';
-import { NavLink } from 'react-router';
+import { Loading } from '../Loading';
+import { FolderCreateForm } from './FolderCreateForm';
+import { Folder } from './Folder';
 export const FolderSideBar = ({ userId }: { userId: number }) => {
   const { data, isPending, error } = useQuery({
     queryKey: ['folders', { userId }],
@@ -14,10 +15,9 @@ export const FolderSideBar = ({ userId }: { userId: number }) => {
   return (
     <div>
       <h1>Folders</h1>
+      <FolderCreateForm userId={userId} />
       {data.map((folder) => (
-        <NavLink key={folder.id} to={`/${folder.id}`}>
-          {folder.name}
-        </NavLink>
+        <Folder key={folder.id} id={folder.id} name={folder.name} />
       ))}
     </div>
   );
