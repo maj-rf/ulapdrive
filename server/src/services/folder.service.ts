@@ -28,7 +28,10 @@ export async function updateFolder(id: string, ownerId: number, name: string) {
 }
 
 export async function getRootFolders(ownerId: number) {
-  return await db.folder.findMany({ where: { ownerId } });
+  return await db.folder.findMany({
+    where: { ownerId },
+    orderBy: [{ createdAt: 'asc' }],
+  });
 }
 
 export async function getUserFolder(ownerId: number, id: string) {
