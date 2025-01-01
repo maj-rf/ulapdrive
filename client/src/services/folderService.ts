@@ -43,3 +43,26 @@ export const deleteFolder = async (folderId: string): Promise<Folder[]> => {
   }
   return data;
 };
+
+export const updateFolderName = async ({
+  name,
+  folderId,
+}: {
+  name: string;
+  folderId: string;
+}): Promise<Folder> => {
+  const res = await fetch(`${API_URL}/folders/${folderId}`, {
+    mode: 'cors',
+    credentials: 'include',
+    method: 'PATCH',
+    body: JSON.stringify({
+      name,
+    }),
+    headers: { 'Content-type': 'application/json' },
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error);
+  }
+  return data;
+};

@@ -17,7 +17,7 @@ export const FolderSideBar = ({ userId }: { userId: number }) => {
       <h1>Folders</h1>
       <FolderCreateForm userId={userId} />
       {data.map((folder) => (
-        <Folder key={folder.id} id={folder.id} name={folder.name} />
+        <Folder key={folder.id} id={folder.id} name={folder.name} userId={userId} />
       ))}
     </div>
   );
