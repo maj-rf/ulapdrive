@@ -13,6 +13,7 @@ import { Home } from './pages/Home';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Toaster } from 'sonner';
 import { FolderFiles } from './components/FolderFiles';
+import { ThemeProvider } from './context/themeContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -59,8 +60,10 @@ const router = createBrowserRouter(routesConfig);
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <Toaster richColors />
+      <ThemeProvider>
+        <RouterProvider router={router} />
+        <Toaster richColors />
+      </ThemeProvider>
     </QueryClientProvider>
   </StrictMode>,
 );
