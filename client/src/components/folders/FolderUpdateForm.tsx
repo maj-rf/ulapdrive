@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useFolderMutation } from '@/hooks/useFolderMutation';
+import { useUpdateFolder } from '@/hooks/useFolderMutation';
 
 const FolderSchema = z.object({
   name: z
@@ -37,7 +37,7 @@ export const FolderUpdateForm = ({ userId, id, name, setEditing }: FolderUpdateP
     },
   });
 
-  const update = useFolderMutation(userId).update;
+  const update = useUpdateFolder(userId);
 
   const onSubmit = async (values: FolderFormValues) => {
     const folder = await update.mutateAsync({ name: values.name, folderId: id });
