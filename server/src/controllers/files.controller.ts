@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import * as fileService from '../services/file.service';
 import createHttpError from 'http-errors';
 import { deleteFromCloud, uploadToCloud } from '../utils/uploadUtil';
+import { getUserFolder } from '../services/folder.service';
 
 export const getFile = (req: Request, res: Response) => {
   console.log(req.user);
@@ -11,6 +12,8 @@ export const getFile = (req: Request, res: Response) => {
 export const getFolderFiles = async (req: Request, res: Response) => {
   const ownerId = req.user?.id;
   const { folderId } = req.params;
+  const folder = await getUserFolder(Number(ownerId), folderId as string);
+  if (!folder) throw createHttpError(404, 'Folder not found');
   const files = await fileService.getUserFilesInFolder(
     folderId as string,
     Number(ownerId),
