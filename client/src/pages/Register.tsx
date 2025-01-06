@@ -50,7 +50,7 @@ const RegisterForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex-1 max-w-md mx-auto space-y-5 border bg-gray-50 p-4 rounded-md"
+        className="flex-1 max-w-md mx-auto space-y-5 border text-primary bg-primary-foreground p-4 rounded-md"
       >
         <FormField
           control={form.control}
