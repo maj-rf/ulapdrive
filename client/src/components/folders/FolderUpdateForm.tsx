@@ -61,8 +61,10 @@ export const FolderUpdateForm = ({ userId, id, name, setEditing }: FolderUpdateP
           )}
         />
         <div className="space-x-2">
-          <Button disabled={update.isPending}>Update</Button>
-          <Button disabled={update.isPending} onClick={() => setEditing(false)}>
+          <Button type="submit" disabled={update.isPending}>
+            Update
+          </Button>
+          <Button type="button" disabled={update.isPending} onClick={() => setEditing(false)}>
             Cancel
           </Button>
         </div>

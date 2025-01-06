@@ -8,6 +8,7 @@ export const useCreateFolder = (userId: number) => {
     mutationFn: createFolder,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['folders', { userId }] });
+      toast.success('Folder created');
     },
     onError: (error) => {
       toast.error(error.message);
@@ -21,6 +22,7 @@ export const useDeleteFolder = (userId: number) => {
     mutationFn: deleteFolder,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['folders', { userId }] });
+      toast.success('Folder deleted');
     },
     onError: (error) => {
       toast.error(error.message);

@@ -38,6 +38,7 @@ export const FolderCreateForm = ({ userId }: { userId: number }) => {
 
   const onSubmit = async (values: FolderFormValues) => {
     create.mutate(values.name);
+    form.reset();
   };
 
   return (

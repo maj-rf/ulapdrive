@@ -1,42 +1,71 @@
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate, useLocation } from 'react-router';
 import { Button } from '../ui/button';
 import { useDeleteFolder } from '@/hooks/useFolderMutation';
-import { FolderPopover } from './FolderPopover';
-import { PopoverTrigger, PopoverContent } from '@/components/ui/popover';
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { EllipsisVertical } from 'lucide-react';
 import { FolderUpdateForm } from './FolderUpdateForm';
 import { useState } from 'react';
+import { SidebarMenuButton } from '../ui/sidebar';
 
-// TODO: ellipsis button must be at the end of menu buttons
+const FolderItem = ({
+  id,
+  name,
+  children,
+}: {
+  id: string;
+  name: string;
+  children: React.ReactNode;
+}) => {
+  return (
+    <div className="flex items-center w-full h-fit">
+      <NavLink
+        className={({ isActive }) =>
+          isActive ? 'group-[.navlink-active]:text-red-300' : '' + 'w-full text-sm'
+        }
+        to={`/${id}`}
+      >
+        {name}
+      </NavLink>
+      <Popover>
+        <PopoverTrigger asChild>
+          <EllipsisVertical className="ml-auto" />
+        </PopoverTrigger>
+        <PopoverContent className="flex flex-col p-0">{children}</PopoverContent>
+      </Popover>
+    </div>
+  );
+};
+
 export const Folder = ({ id, name, userId }: { id: string; name: string; userId: number }) => {
   const remove = useDeleteFolder(userId);
+  const to = useNavigate();
+  const l = useLocation();
   const [editing, setEditing] = useState(false);
+
+  const handleDelete = (id: string) => {
+    remove.mutate(id);
+    // route to valid page if deleting a folder while in current folder url
+    if (`/${id}` === l.pathname) {
+      to('/');
+    }
+  };
+
   return (
-    <div>
+    <>
       {editing ? (
         <FolderUpdateForm name={name} id={id} userId={userId} setEditing={setEditing} />
       ) : (
-        <div className="flex items-center">
-          <NavLink className="block truncate" to={`/${id}`}>
-            {name}
-          </NavLink>
-          <FolderPopover>
-            <PopoverTrigger asChild>
-              <div>
-                <EllipsisVertical className="h-fit" />
-              </div>
-            </PopoverTrigger>
-            <PopoverContent className="flex flex-col p-0">
-              <Button variant="ghost" onClick={() => remove.mutate(id)}>
-                Delete
-              </Button>
-              <Button variant="ghost" onClick={() => setEditing(true)}>
-                Edit Name
-              </Button>
-            </PopoverContent>
-          </FolderPopover>
-        </div>
+        <SidebarMenuButton variant="outline" className="group navlink-active">
+          <FolderItem id={id} name={name}>
+            <Button variant="ghost" onClick={() => handleDelete(id)}>
+              Delete
+            </Button>
+            <Button variant="ghost" onClick={() => setEditing(true)}>
+              Edit Name
+            </Button>
+          </FolderItem>
+        </SidebarMenuButton>
       )}
-    </div>
+    </>
   );
 };

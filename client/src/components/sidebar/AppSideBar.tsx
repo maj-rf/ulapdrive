@@ -9,10 +9,10 @@ import {
 } from '@/components/ui/sidebar';
 import { UserNav } from './UserNav';
 import { Cloud } from 'lucide-react';
-import { FolderSideBar } from './folders/FolderSideBar';
+import { FolderSideBar } from '../folders/FolderSideBar';
 import { useMe } from '@/hooks/useMe';
-import { Loading } from './Loading';
-import { Navigate } from 'react-router';
+import { Loading } from '../Loading';
+import { Navigate, NavLink } from 'react-router';
 
 export const AppSideBar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
   const { data, isPending } = useMe();
@@ -25,7 +25,7 @@ export const AppSideBar = ({ ...props }: React.ComponentProps<typeof Sidebar>) =
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
+              <NavLink to="/">
                 <div className="flex aspect-square size-10 items-center justify-center rounded-xl bg-sidebar-primary text-sidebar-primary-foreground">
                   <Cloud />
                 </div>
@@ -33,7 +33,7 @@ export const AppSideBar = ({ ...props }: React.ComponentProps<typeof Sidebar>) =
                   <span className="truncate font-semibold">Ulapdrive</span>
                   <span className="truncate text-xs">File Upload</span>
                 </div>
-              </a>
+              </NavLink>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

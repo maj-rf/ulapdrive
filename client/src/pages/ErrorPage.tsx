@@ -1,5 +1,5 @@
-import { useRouteError, isRouteErrorResponse } from 'react-router';
-
+import { useRouteError, isRouteErrorResponse, Link } from 'react-router';
+import { Button } from '@/components/ui/button';
 export default function ErrorPage() {
   const error = useRouteError();
   console.error(error);
@@ -26,6 +26,9 @@ export default function ErrorPage() {
         <p className="font-bold text-xl">
           <i>{errorMessage}</i>
         </p>
+        <Button>
+          <Link to="/">Back to home</Link>
+        </Button>
       </div>
     </div>
   );

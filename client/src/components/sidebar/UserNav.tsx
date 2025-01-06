@@ -1,7 +1,7 @@
 import { useLogout } from '@/hooks/useLogout';
-import { ModeToggle } from './ModeToggle';
-import { Button } from './ui/button';
-import { SidebarMenu, SidebarMenuItem } from './ui/sidebar';
+import { ModeToggle } from '../ModeToggle';
+import { Button } from '../ui/button';
+import { SidebarMenu, SidebarMenuItem } from '../ui/sidebar';
 export const UserNav = ({ displayName, email }: { displayName: string; email: string }) => {
   const logoutMutation = useLogout();
   const handleLogout = () => {
