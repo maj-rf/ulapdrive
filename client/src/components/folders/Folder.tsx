@@ -6,6 +6,8 @@ import { PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { EllipsisVertical } from 'lucide-react';
 import { FolderUpdateForm } from './FolderUpdateForm';
 import { useState } from 'react';
+
+// TODO: ellipsis button must be at the end of menu buttons
 export const Folder = ({ id, name, userId }: { id: string; name: string; userId: number }) => {
   const remove = useDeleteFolder(userId);
   const [editing, setEditing] = useState(false);
@@ -20,9 +22,9 @@ export const Folder = ({ id, name, userId }: { id: string; name: string; userId:
           </NavLink>
           <FolderPopover>
             <PopoverTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <div>
                 <EllipsisVertical className="h-fit" />
-              </Button>
+              </div>
             </PopoverTrigger>
             <PopoverContent className="flex flex-col p-0">
               <Button variant="ghost" onClick={() => remove.mutate(id)}>

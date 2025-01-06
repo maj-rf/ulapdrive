@@ -46,7 +46,7 @@ export const FolderUpdateForm = ({ userId, id, name, setEditing }: FolderUpdateP
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-2 gap-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-rows-2">
         <FormField
           control={form.control}
           name="name"
