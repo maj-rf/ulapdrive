@@ -12,7 +12,7 @@ import { Login } from './pages/Login';
 import { Home } from './pages/Home';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Toaster } from 'sonner';
-import { FolderFiles } from './components/FolderFiles';
+import { FilesInFolder } from './components/files/FilesInFolder';
 import { ThemeProvider } from './context/themeContext';
 
 const queryClient = new QueryClient({
@@ -40,7 +40,7 @@ export const routesConfig: RouteObject[] = [
           { index: true, element: <div>Click some folder</div> },
           {
             path: '/:folderId',
-            element: <FolderFiles />,
+            element: <FilesInFolder />,
           },
         ],
       },
