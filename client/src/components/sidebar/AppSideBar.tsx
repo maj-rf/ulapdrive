@@ -6,18 +6,14 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarGroup,
 } from '@/components/ui/sidebar';
 import { UserNav } from './UserNav';
-import { FolderSideBar } from '../folders/FolderSideBar';
-import { useMe } from '@/hooks/useAuth';
-import { Loading } from '../Loading';
-import { Navigate, NavLink } from 'react-router';
+import { FoldersList } from '../folders/FoldersList';
+import { NavLink } from 'react-router';
+import { FolderCreateForm } from '../folders/FolderCreateForm';
 
 export const AppSideBar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
-  const { data, isPending } = useMe();
-  if (isPending) return <Loading />;
-  if (!data) return <Navigate to="/login" />;
-
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -38,10 +34,13 @@ export const AppSideBar = ({ ...props }: React.ComponentProps<typeof Sidebar>) =
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <FolderSideBar userId={data.id} />
+        <SidebarGroup>
+          <FolderCreateForm />
+        </SidebarGroup>
+        <FoldersList />
       </SidebarContent>
       <SidebarFooter>
-        <UserNav email={data.email} displayName={data.displayName} />
+        <UserNav />
       </SidebarFooter>
     </Sidebar>
   );

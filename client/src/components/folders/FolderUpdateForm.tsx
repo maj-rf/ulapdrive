@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useUpdateFolder } from '@/hooks/useFolderMutation';
+import { useUpdateFolder } from '@/hooks/useFolder';
 
 const FolderSchema = z.object({
   name: z
@@ -23,13 +23,12 @@ const FolderSchema = z.object({
 type FolderFormValues = z.infer<typeof FolderSchema>;
 
 type FolderUpdateProps = {
-  userId: number;
   name: string;
   id: string;
   setEditing: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const FolderUpdateForm = ({ userId, id, name, setEditing }: FolderUpdateProps) => {
+export const FolderUpdateForm = ({ id, name, setEditing }: FolderUpdateProps) => {
   const form = useForm<FolderFormValues>({
     resolver: zodResolver(FolderSchema),
     defaultValues: {
@@ -37,7 +36,7 @@ export const FolderUpdateForm = ({ userId, id, name, setEditing }: FolderUpdateP
     },
   });
 
-  const update = useUpdateFolder(userId);
+  const update = useUpdateFolder();
 
   const onSubmit = async (values: FolderFormValues) => {
     const folder = await update.mutateAsync({ name: values.name, folderId: id });

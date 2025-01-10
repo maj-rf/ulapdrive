@@ -1,6 +1,6 @@
 import { NavLink, useNavigate, useLocation } from 'react-router';
 import { Button } from '../ui/button';
-import { useDeleteFolder } from '@/hooks/useFolderMutation';
+import { useDeleteFolder } from '@/hooks/useFolder';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { EllipsisVertical } from 'lucide-react';
 import { FolderUpdateForm } from './FolderUpdateForm';
@@ -36,8 +36,8 @@ const FolderItem = ({
   );
 };
 
-export const Folder = ({ id, name, userId }: { id: string; name: string; userId: number }) => {
-  const remove = useDeleteFolder(userId);
+export const Folder = ({ id, name }: { id: string; name: string }) => {
+  const remove = useDeleteFolder();
   const to = useNavigate();
   const l = useLocation();
   const [editing, setEditing] = useState(false);
@@ -53,7 +53,7 @@ export const Folder = ({ id, name, userId }: { id: string; name: string; userId:
   return (
     <>
       {editing ? (
-        <FolderUpdateForm name={name} id={id} userId={userId} setEditing={setEditing} />
+        <FolderUpdateForm name={name} id={id} setEditing={setEditing} />
       ) : (
         <SidebarMenuButton variant="outline" className="group navlink-active">
           <FolderItem id={id} name={name}>

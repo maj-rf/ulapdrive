@@ -13,7 +13,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { FolderPlus } from 'lucide-react';
-import { useCreateFolder } from '@/hooks/useFolderMutation';
+import { useCreateFolder } from '@/hooks/useFolder';
 import { useState } from 'react';
 
 const FolderSchema = z.object({
@@ -25,7 +25,7 @@ const FolderSchema = z.object({
 
 type FolderFormValues = z.infer<typeof FolderSchema>;
 
-export const FolderCreateForm = ({ userId }: { userId: number }) => {
+export const FolderCreateForm = () => {
   const [showForm, setShowForm] = useState(false);
   const form = useForm<FolderFormValues>({
     resolver: zodResolver(FolderSchema),
@@ -34,7 +34,7 @@ export const FolderCreateForm = ({ userId }: { userId: number }) => {
     },
   });
 
-  const create = useCreateFolder(userId);
+  const create = useCreateFolder();
 
   const onSubmit = async (values: FolderFormValues) => {
     create.mutate(values.name);

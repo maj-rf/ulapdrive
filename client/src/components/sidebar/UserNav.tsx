@@ -1,23 +1,36 @@
-import { useLogout } from '@/hooks/useAuth';
+import { useLogout, useMe } from '@/hooks/useAuth';
 import { ModeToggle } from '../ModeToggle';
 import { Button } from '../ui/button';
 import { SidebarMenu, SidebarMenuItem } from '../ui/sidebar';
-export const UserNav = ({ displayName, email }: { displayName: string; email: string }) => {
+import { Loading } from '../Loading';
+export const UserNav = () => {
+  const { data, isPending, error } = useMe();
   const logoutMutation = useLogout();
   const handleLogout = () => {
     logoutMutation.mutate();
   };
+
+  if (isPending)
+    return (
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <Loading />
+        </SidebarMenuItem>
+      </SidebarMenu>
+    );
+
+  if (error) return <div>{error.message}</div>;
 
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <div className="flex items-center gap-2">
           <div className="flex aspect-square size-10 items-center justify-center rounded-xl bg-sidebar-primary text-sidebar-primary-foreground">
-            {displayName.slice(0, 1).toUpperCase()}
+            {data.displayName.slice(0, 1).toUpperCase()}
           </div>
           <div className="grid text-left text-sm leading-tight">
-            <span className="truncate font-semibold">Hi, {displayName}!</span>
-            <span className="truncate text-xs">{email}</span>
+            <span className="truncate font-semibold">Hi, {data.displayName}!</span>
+            <span className="truncate text-xs">{data.email}</span>
           </div>
         </div>
 
