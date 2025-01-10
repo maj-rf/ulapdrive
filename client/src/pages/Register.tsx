@@ -13,8 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Link } from 'react-router';
-import { AuthLayout } from '@/components/AuthLayout';
-import { useRegister } from '@/hooks/useRegister';
+import { useRegister } from '@/hooks/useAuth';
 
 const RegisterSchema = z
   .object({
@@ -114,7 +113,7 @@ const RegisterForm = () => {
         </Button>
         <p>
           Already have an account?{' '}
-          <Link to="/login" className="font-medium underline text-blue-400">
+          <Link to="/auth/login" className="font-medium underline text-blue-400">
             Login
           </Link>
         </p>
@@ -124,9 +123,5 @@ const RegisterForm = () => {
 };
 
 export const Register = () => {
-  return (
-    <AuthLayout>
-      <RegisterForm />
-    </AuthLayout>
-  );
+  return <RegisterForm />;
 };

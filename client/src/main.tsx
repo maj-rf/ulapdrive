@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import { RouterProvider } from 'react-router';
+import { redirect, RouterProvider } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createBrowserRouter, RouteObject } from 'react-router';
 import { RootLayout } from './components/RootLayout';
@@ -14,6 +14,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { Toaster } from 'sonner';
 import { FilesInFolder } from './components/files/FilesInFolder';
 import { ThemeProvider } from './context/themeContext';
+import { AuthLayout } from './components/AuthLayout';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -47,13 +48,15 @@ export const routesConfig: RouteObject[] = [
     ],
   },
   {
-    path: '/register',
-    element: <Register />,
+    path: '/auth',
+    element: <AuthLayout />,
+    children: [
+      { index: true, loader: () => redirect('/auth/login') },
+      { path: '/auth/login', element: <Login /> },
+      { path: '/auth/register', element: <Register /> },
+    ],
   },
-  {
-    path: '/login',
-    element: <Login />,
-  },
+  {},
 ];
 const router = createBrowserRouter(routesConfig);
 

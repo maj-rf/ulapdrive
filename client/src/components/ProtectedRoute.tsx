@@ -1,16 +1,13 @@
 import React from 'react';
-import { useMe } from '@/hooks/useMe';
+import { useMe } from '@/hooks/useAuth';
 import { Navigate } from 'react-router';
 import { Loading } from './Loading';
-import { toast } from 'sonner';
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { data, isLoading, error } = useMe();
-  if (isLoading) return <Loading />;
-  // redirect to login if session is expired and show error message
+  const { data, isPending, error } = useMe();
+  if (isPending) return <Loading />;
   if (error) {
-    toast.error(error.message);
-    return <Navigate to="/login" />;
+    return <Navigate to="/auth" />;
   }
-  return data ? children : <Navigate to="/login" />;
+  return data ? children : <Navigate to="/auth" />;
 };

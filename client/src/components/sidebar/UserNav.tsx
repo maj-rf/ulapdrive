@@ -1,4 +1,4 @@
-import { useLogout } from '@/hooks/useLogout';
+import { useLogout } from '@/hooks/useAuth';
 import { ModeToggle } from '../ModeToggle';
 import { Button } from '../ui/button';
 import { SidebarMenu, SidebarMenuItem } from '../ui/sidebar';

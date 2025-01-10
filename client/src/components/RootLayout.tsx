@@ -7,11 +7,9 @@ export function RootLayout() {
     <SidebarProvider>
       <AppSideBar />
       <SidebarInset>
-        <main>
-          <div className="p-2">
-            <SidebarTrigger />
-            <Outlet />
-          </div>
+        <main className="p-2">
+          <SidebarTrigger />
+          <Outlet />
         </main>
       </SidebarInset>
     </SidebarProvider>
