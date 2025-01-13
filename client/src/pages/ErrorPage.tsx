@@ -27,7 +27,7 @@ export default function ErrorPage() {
           <i>{errorMessage}</i>
         </p>
         <Button>
-          <Link to="/">Back to home</Link>
+          <Link to="/auth">Back to login page</Link>
         </Button>
       </div>
     </div>

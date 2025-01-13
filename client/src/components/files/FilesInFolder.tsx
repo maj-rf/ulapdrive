@@ -12,7 +12,12 @@ export const FilesInFolder = () => {
     throwOnError: true,
   });
 
-  if (isPending) return <Loading />;
+  if (isPending)
+    return (
+      <div className="flex items-center justify-center">
+        <Loading />
+      </div>
+    );
   if (error) return <div>{error.message}</div>;
   const dataDiv =
     data.length === 0 ? (
@@ -29,7 +34,6 @@ export const FilesInFolder = () => {
     );
   return (
     <div className="p-2 grid gap-2">
-      <h1>Files</h1>
       <FileUpload />
       {dataDiv}
     </div>
