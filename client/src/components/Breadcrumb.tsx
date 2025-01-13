@@ -1,13 +1,9 @@
-import { useQueryClient } from '@tanstack/react-query';
-import type { Folder } from '@/types/types';
 import { useParams, NavLink } from 'react-router';
 import { ChevronRight, House } from 'lucide-react';
+import { useSingleFolder } from '@/hooks/useFolder';
 export const Breadcrumb = () => {
-  const queryClient = useQueryClient();
   const params = useParams();
-  const current = queryClient
-    .getQueryData<Folder[]>(['folders'])
-    ?.find((f) => f.id === (params.folderId as string));
+  const { data } = useSingleFolder(params.folderId as string);
 
   return (
     <div className="inline-flex items-center gap-1">
@@ -15,14 +11,14 @@ export const Breadcrumb = () => {
         <House />
         <span>Home </span>
       </NavLink>
-      {!current ? (
+      {!data ? (
         ''
       ) : (
         <>
           <span>
             <ChevronRight />
           </span>
-          {current.name}
+          {data.name}
         </>
       )}
     </div>

@@ -42,10 +42,10 @@ export const Folder = ({ id, name }: { id: string; name: string }) => {
   const l = useLocation();
   const [editing, setEditing] = useState(false);
 
-  const handleDelete = (id: string) => {
-    remove.mutate(id);
+  const handleDelete = async (id: string) => {
+    const folder = await remove.mutateAsync(id);
     // route to valid page if deleting a folder while in current folder url
-    if (`/${id}` === l.pathname) {
+    if (folder && `/${id}` === l.pathname) {
       to('/');
     }
   };

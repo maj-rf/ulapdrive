@@ -1,10 +1,10 @@
 import { Loading } from '../Loading';
 import { Folder } from './Folder';
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem } from '../ui/sidebar';
-import { useGetFolder } from '@/hooks/useFolder';
+import { useFolders } from '@/hooks/useFolder';
 
 export const FoldersList = () => {
-  const { data, isPending, error } = useGetFolder();
+  const { data, isPending, error } = useFolders();
   if (isPending) return <Loading />;
   if (error) return <div>{error.message}</div>;
 

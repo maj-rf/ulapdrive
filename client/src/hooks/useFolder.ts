@@ -6,6 +6,7 @@ import {
   updateFolderName,
   getRootFolders,
 } from '@/services/folderService';
+import type { Folder } from '@/types/types';
 
 export const useCreateFolder = () => {
   const queryClient = useQueryClient();
@@ -48,9 +49,14 @@ export const useUpdateFolder = () => {
   });
 };
 
-export const useGetFolder = () =>
+export const useFolders = <TData = Folder[]>(select?: (data: Folder[]) => TData) =>
   useQuery({
     queryKey: ['folders'],
     queryFn: getRootFolders,
     throwOnError: true,
+    select,
   });
+
+export const useSingleFolder = (folderId: string) => {
+  return useFolders((data) => data.find((f) => f.id === folderId));
+};
