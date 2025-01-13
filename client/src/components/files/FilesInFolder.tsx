@@ -1,16 +1,12 @@
-import { getFilesFromFolder } from '@/services/fileService';
-import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router';
 import { Loading } from '../Loading';
 import { FileUpload } from './FileUpload';
 import sadCloud from '../../assets/sad-cloud.svg';
+import { useFiles } from '@/hooks/useFile';
+import { FileSingle } from './FileSingle';
 export const FilesInFolder = () => {
   const { folderId } = useParams();
-  const { data, isPending, error } = useQuery({
-    queryKey: ['files', { folderId }],
-    queryFn: () => getFilesFromFolder(folderId as string),
-    throwOnError: true,
-  });
+  const { data, isPending, error } = useFiles(folderId as string);
 
   if (isPending)
     return (
@@ -30,7 +26,7 @@ export const FilesInFolder = () => {
         <p className="font-bold">Please upload some files to make this ulap happy!</p>
       </div>
     ) : (
-      data.map((file) => <div key={file.id}>{file.name}</div>)
+      data.map((file) => <FileSingle key={file.id} {...file} />)
     );
   return (
     <div className="p-2 grid gap-2">
