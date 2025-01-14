@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import { redirect, RouterProvider } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { createBrowserRouter, RouteObject } from 'react-router';
 import { RootLayout } from './components/RootLayout';
 import ErrorPage from './pages/ErrorPage';
@@ -66,6 +67,7 @@ createRoot(document.getElementById('root')!).render(
       <ThemeProvider>
         <RouterProvider router={router} />
         <Toaster richColors />
+        <ReactQueryDevtools />
       </ThemeProvider>
     </QueryClientProvider>
   </StrictMode>,
