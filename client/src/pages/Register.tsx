@@ -113,7 +113,7 @@ const RegisterForm = () => {
         </Button>
         <p>
           Already have an account?{' '}
-          <Link to="/auth/login" className="font-medium underline text-blue-400">
+          <Link to="/auth" className="font-medium underline text-blue-400">
             Login
           </Link>
         </p>

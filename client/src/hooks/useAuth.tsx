@@ -26,9 +26,9 @@ export function useLogout() {
     mutationFn: authService.logout,
     onSuccess: async () => {
       toast.success('Successfully logged-out');
-      await queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.setQueryData(['user'], null);
       queryClient.clear();
-      to('/login');
+      to('/auth');
     },
   });
 }
