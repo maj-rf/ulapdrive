@@ -6,6 +6,8 @@ export const useFiles = (folderId: string) =>
   useQuery({
     queryFn: () => fileService.getFilesFromFolder(folderId),
     queryKey: ['files', { folderId }],
+    throwOnError: true,
+    retry: false,
   });
 
 export const useFileUpload = (folderId: string) => {

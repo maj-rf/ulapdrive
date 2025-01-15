@@ -38,13 +38,11 @@ export const routesConfig: RouteObject[] = [
     children: [
       {
         element: <Home />,
-        children: [
-          { index: true, element: <div>Click some folder</div> },
-          {
-            path: '/:folderId',
-            element: <FilesPage />,
-          },
-        ],
+        index: true,
+      },
+      {
+        path: '/:folderId',
+        element: <FilesPage />,
       },
     ],
   },

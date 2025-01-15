@@ -5,7 +5,12 @@ import { Loading } from './Loading';
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { data, isPending, error } = useMe();
-  if (isPending) return <Loading />;
+  if (isPending)
+    return (
+      <section className="h-screen grid place-items-center">
+        <Loading />
+      </section>
+    );
   if (error) {
     return <Navigate to="/auth" />;
   }

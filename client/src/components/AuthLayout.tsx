@@ -5,7 +5,12 @@ import { Navigate, Outlet } from 'react-router';
 export const AuthLayout = () => {
   const { data, isPending } = useMe();
 
-  if (isPending) return <Loading />;
+  if (isPending)
+    return (
+      <section className="h-screen grid place-items-center">
+        <Loading />
+      </section>
+    );
   if (data) return <Navigate to="/" />;
   return (
     <section className=" h-screen bg-gradient-to-tl from-gray-50 to-cyan-200 dark:from-gray-400 dark:to-cyan-700">
