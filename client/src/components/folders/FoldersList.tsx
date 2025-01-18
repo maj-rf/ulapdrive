@@ -7,15 +7,32 @@ import {
 } from '../ui/sidebar';
 import { useFolders } from '@/hooks/useFolder';
 import { Plus } from 'lucide-react';
+import { FolderCreateForm } from './FolderCreateForm';
+import { useState } from 'react';
 
-export const FoldersList = () => {
+const FolderActionWithForm = () => {
+  const [showForm, setShowForm] = useState(false);
+  const hideForm = () => {
+    setShowForm(false);
+  };
+  return (
+    <>
+      <SidebarGroupAction onClick={() => setShowForm((prev) => !prev)}>
+        <Plus />
+      </SidebarGroupAction>
+      {showForm ? <FolderCreateForm hideForm={hideForm} /> : null}
+    </>
+  );
+};
+
+const Folders = () => {
   const { data, isPending, error } = useFolders();
   if (isPending)
     return (
       <>
-        <SidebarMenuSkeleton />
-        <SidebarMenuSkeleton />
-        <SidebarMenuSkeleton />
+        {[1, 2, 3, 4, 5].map((n) => (
+          <SidebarMenuSkeleton key={`skeleton-key-${n}`} />
+        ))}
       </>
     );
   if (error) return <div>{error.message}</div>;
@@ -23,9 +40,6 @@ export const FoldersList = () => {
   return (
     <>
       {/** TODO: put create folder form here */}
-      <SidebarGroupAction>
-        <Plus />
-      </SidebarGroupAction>
       <SidebarMenu>
         {data.map((folder) => (
           <SidebarMenuItem key={folder.id} className="">
@@ -33,6 +47,15 @@ export const FoldersList = () => {
           </SidebarMenuItem>
         ))}
       </SidebarMenu>
+    </>
+  );
+};
+
+export const FoldersList = () => {
+  return (
+    <>
+      <FolderActionWithForm />
+      <Folders />
     </>
   );
 };

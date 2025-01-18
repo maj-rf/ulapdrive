@@ -12,7 +12,6 @@ import {
 import { UserNav } from './UserNav';
 import { FoldersList } from '../folders/FoldersList';
 import { NavLink } from 'react-router';
-import { FolderCreateForm } from '../folders/FolderCreateForm';
 
 export const AppSideBar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
   return (
@@ -35,9 +34,6 @@ export const AppSideBar = ({ ...props }: React.ComponentProps<typeof Sidebar>) =
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <FolderCreateForm />
-        </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupLabel>Folders</SidebarGroupLabel>
           <FoldersList />
