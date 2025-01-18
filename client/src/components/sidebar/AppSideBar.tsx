@@ -7,6 +7,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarGroup,
+  SidebarGroupLabel,
 } from '@/components/ui/sidebar';
 import { UserNav } from './UserNav';
 import { FoldersList } from '../folders/FoldersList';
@@ -37,7 +38,10 @@ export const AppSideBar = ({ ...props }: React.ComponentProps<typeof Sidebar>) =
         <SidebarGroup>
           <FolderCreateForm />
         </SidebarGroup>
-        <FoldersList />
+        <SidebarGroup>
+          <SidebarGroupLabel>Folders</SidebarGroupLabel>
+          <FoldersList />
+        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <UserNav />
