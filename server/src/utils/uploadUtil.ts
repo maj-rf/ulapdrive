@@ -19,7 +19,6 @@ export const upload = multer({ storage });
 
 export const uploadToCloud = async (fileString: string, ownerId: number) => {
   const { uploader } = cloudinary;
-  cloudinary.utils.url();
   const res = await uploader.upload(fileString, {
     folder: `ulapdrive/${ownerId.toString()}`,
   });

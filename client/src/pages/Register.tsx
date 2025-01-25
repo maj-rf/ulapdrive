@@ -13,8 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Link } from 'react-router';
-import { AuthLayout } from '@/components/AuthLayout';
-import { useRegister } from '@/hooks/useRegister';
+import { useRegister } from '@/hooks/useAuth';
 
 const RegisterSchema = z
   .object({
@@ -50,7 +49,7 @@ const RegisterForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex-1 max-w-md mx-auto space-y-5 border bg-gray-50 p-4 rounded-md"
+        className="flex-1 max-w-md mx-auto space-y-5 border text-primary bg-primary-foreground p-4 rounded-md"
       >
         <FormField
           control={form.control}
@@ -114,7 +113,7 @@ const RegisterForm = () => {
         </Button>
         <p>
           Already have an account?{' '}
-          <Link to="/login" className="font-medium underline text-blue-400">
+          <Link to="/auth" className="font-medium underline text-blue-400">
             Login
           </Link>
         </p>
@@ -124,9 +123,5 @@ const RegisterForm = () => {
 };
 
 export const Register = () => {
-  return (
-    <AuthLayout>
-      <RegisterForm />
-    </AuthLayout>
-  );
+  return <RegisterForm />;
 };

@@ -21,7 +21,7 @@ export const register = async (user: FormData) => {
   return data;
 };
 
-export const login = async (user: Partial<FormData>) => {
+export const login = async (user: Partial<FormData>): Promise<PublicUser> => {
   const res = await fetch(`${API_URL}/auth/`, {
     mode: 'cors',
     method: 'POST',

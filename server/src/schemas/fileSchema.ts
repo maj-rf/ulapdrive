@@ -5,11 +5,12 @@ const validMimeTypes = [
   'image/jpeg',
   'image/png',
   'image/gif',
+  'image/jpg',
+  'image/webp',
   'application/msword',
   'application/pdf',
   'text/plain',
   'application/zip',
-  'image/jpg',
 ];
 
 export const uploadSchema = z.object({
@@ -21,6 +22,6 @@ export const uploadSchema = z.object({
     .refine(
       (file: Express.Multer.File) =>
         !file || validMimeTypes.includes(file.mimetype),
-      'Allowed types: jpeg, jpg, png, pdf, txt, zip, doc',
+      'Allowed types: jpeg, jpg, gif, png, pdf, txt, zip, doc',
     ),
 });

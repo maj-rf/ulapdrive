@@ -13,8 +13,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router';
-import { AuthLayout } from '@/components/AuthLayout';
-import { useLogin } from '@/hooks/useLogin';
+import { useLogin } from '@/hooks/useAuth';
 
 const LoginSchema = z.object({
   email: z.string().email(),
@@ -42,7 +41,7 @@ const LoginForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex-1 max-w-md mx-auto space-y-5 border  bg-gray-50 p-4 rounded-md"
+        className="flex-1 max-w-md mx-auto space-y-5 border text-primary bg-primary-foreground p-4 rounded-md"
       >
         <FormField
           control={form.control}
@@ -77,7 +76,7 @@ const LoginForm = () => {
         </Button>
         <p>
           Don't have an account?{' '}
-          <Link to="/register" className="font-medium underline text-blue-400">
+          <Link to="/auth/register" className="font-medium underline text-blue-400">
             Register
           </Link>
         </p>
@@ -87,9 +86,5 @@ const LoginForm = () => {
 };
 
 export const Login = () => {
-  return (
-    <AuthLayout>
-      <LoginForm />
-    </AuthLayout>
-  );
+  return <LoginForm />;
 };
