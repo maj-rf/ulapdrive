@@ -18,27 +18,29 @@ model Session {
 
 model User {
   // User can have manu folders and files
-  id          Int      @id @default(autoincrement())
-  displayName String
-  email       String   @unique
-  password    String
-  folders     Folder[]
-  files       File[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           Int            @id @default(autoincrement())
+  displayName  String
+  email        String         @unique
+  password     String
+  folders      Folder[]
+  files        File[]
+  SharedFolder SharedFolder[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
 
   @@map("users")
 }
 
 model Folder {
   // A folder belongs to a user and can contain manu files
-  id        String   @id @default(uuid())
-  name      String
-  ownerId   Int
-  owner     User     @relation(fields: [ownerId], references: [id])
-  files     File[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String         @id @default(uuid())
+  name         String
+  ownerId      Int
+  owner        User           @relation(fields: [ownerId], references: [id])
+  files        File[]
+  SharedFolder SharedFolder[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
 
   @@map("folders")
 }
@@ -58,4 +60,16 @@ model File {
   updatedAt DateTime @updatedAt
 
   @@map("files")
+}
+
+model SharedFolder {
+  // id will be used as a unique link
+  id        String   @id @default(uuid())
+  userId    Int
+  owner     User     @relation(fields: [userId], references: [id])
+  folderId  String
+  folder    Folder   @relation(fields: [folderId], references: [id])
+  expiresAt DateTime
+
+  @@map("shared_folders")
 }
