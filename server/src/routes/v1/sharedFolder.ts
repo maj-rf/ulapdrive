@@ -4,23 +4,28 @@ import { isAuthenticated } from '../../middlewares/middlewares';
 export const sharedFolderRouter = Router();
 
 sharedFolderRouter.get(
-  '/',
+  '/folder/:folderId',
   isAuthenticated,
-  sharedFolderController.getAllUserShared,
+  sharedFolderController.getLink,
 );
 sharedFolderRouter.post(
-  '/:folderId',
+  '/folder/:folderId',
   isAuthenticated,
-  sharedFolderController.createSharedFolderLink,
+  sharedFolderController.createLink,
 );
 sharedFolderRouter.delete(
-  '/:linkId',
+  '/link/:linkId',
   isAuthenticated,
-  sharedFolderController.removeSharedFolderLink,
+  sharedFolderController.removeLink,
+);
+sharedFolderRouter.delete(
+  '/all',
+  isAuthenticated,
+  sharedFolderController.deleteAllExpiredLinks,
 );
 
 // public shared folder endpoint
 sharedFolderRouter.get(
-  '/:linkId',
+  '/link/:linkId',
   sharedFolderController.getFilesOfSharedFolder,
 );

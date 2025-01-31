@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import * as sharedFolderService from '../services/sharedFolder.service';
 
-export const createSharedFolderLink = async (req: Request, res: Response) => {
+export const createLink = async (req: Request, res: Response) => {
   const { expiresAt } = req.body;
   const { folderId } = req.params;
   const ownerId = req.user?.id;
-  const folder = await sharedFolderService.createSharedFolder(
+  const folder = await sharedFolderService.createLink(
     folderId as string,
     Number(ownerId),
     expiresAt,
@@ -13,10 +13,12 @@ export const createSharedFolderLink = async (req: Request, res: Response) => {
   res.json(folder);
 };
 
-export const getAllUserShared = async (req: Request, res: Response) => {
+export const getLink = async (req: Request, res: Response) => {
   const ownerId = req.user?.id;
-  const sharedFolders = await sharedFolderService.getAllUserSharedFolders(
+  const { folderId } = req.params;
+  const sharedFolders = await sharedFolderService.getLink(
     Number(ownerId),
+    folderId as string,
   );
   res.json(sharedFolders);
 };
@@ -29,10 +31,13 @@ export const getFilesOfSharedFolder = async (req: Request, res: Response) => {
   res.json(files);
 };
 
-export const removeSharedFolderLink = async (req: Request, res: Response) => {
+export const removeLink = async (req: Request, res: Response) => {
   const { linkId } = req.params;
-  const folder = await sharedFolderService.removeUserSharedFolderLink(
-    linkId as string,
-  );
+  const folder = await sharedFolderService.removeLink(linkId as string);
   res.json(folder);
+};
+
+export const deleteAllExpiredLinks = async (req: Request, res: Response) => {
+  await sharedFolderService.deleteAllExpiredLinks();
+  res.json({ message: 'Deleted all folders' });
 };
