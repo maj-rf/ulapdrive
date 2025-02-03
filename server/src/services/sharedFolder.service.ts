@@ -1,3 +1,4 @@
+import createHttpError from 'http-errors';
 import { db } from './db';
 
 // create link
@@ -81,6 +82,7 @@ export async function getFilesOfValidSharedFolder(linkId: string) {
           files: {
             select: {
               id: true,
+              name: true,
               mimeType: true,
               createdAt: true,
               size: true,
@@ -92,10 +94,10 @@ export async function getFilesOfValidSharedFolder(linkId: string) {
     },
   });
   if (!sharedFolder) {
-    return;
+    throw createHttpError(404, 'Shared folder cannot be found');
   }
   if (sharedFolder.expiresAt < new Date()) {
-    throw new Error('expired');
+    throw createHttpError(404, 'Link expired');
   }
   return sharedFolder;
 }
