@@ -6,8 +6,8 @@ export const useCreateLink = (folderId: string) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: shareServices.createLink,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['shared', { folderId }] });
+    onSuccess: (data) => {
+      queryClient.setQueryData(['shared', { folderId }], data);
       toast.success('Link created');
     },
     onError: (error) => {
@@ -21,7 +21,7 @@ export const useRemoveLink = (folderId: string) => {
   return useMutation({
     mutationFn: shareServices.removeLink,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['shared', { folderId }] });
+      queryClient.setQueryData(['shared', { folderId }], null);
       toast.success('Link deleted');
     },
     onError: (error) => {
@@ -34,5 +34,7 @@ export const useGetLink = (folderId: string) => {
   return useQuery({
     queryKey: ['shared', { folderId }],
     queryFn: () => shareServices.getLink(folderId),
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
   });
 };

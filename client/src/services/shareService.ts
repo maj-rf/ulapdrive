@@ -1,3 +1,4 @@
+import { SharedFolder } from '@/types/types';
 import { API_URL } from './api';
 
 type ShareLink = {
@@ -43,6 +44,19 @@ export const removeLink = async (linkId: string): Promise<ShareLink> => {
 
 export const getLink = async (folderId: string): Promise<ShareLink> => {
   const res = await fetch(`${API_URL}/shared/folder/${folderId}`, {
+    mode: 'cors',
+    credentials: 'include',
+    headers: { 'Content-type': 'application/json' },
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error);
+  }
+  return data;
+};
+
+export const getPublicSharedFolder = async (linkId: string): Promise<SharedFolder> => {
+  const res = await fetch(`${API_URL}/shared/link/${linkId}`, {
     mode: 'cors',
     credentials: 'include',
     headers: { 'Content-type': 'application/json' },

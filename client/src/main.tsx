@@ -16,6 +16,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { Toaster } from 'sonner';
 import { ThemeProvider } from './context/themeContext';
 import { AuthLayout } from './components/AuthLayout';
+import { SharePage } from './pages/SharePage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -47,8 +48,14 @@ export const routesConfig: RouteObject[] = [
     ],
   },
   {
+    path: 'share/:linkId',
+    element: <SharePage />,
+    errorElement: <ErrorPage />,
+  },
+  {
     path: '/auth',
     element: <AuthLayout />,
+    errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Login /> },
       { path: '/auth/register', element: <Register /> },
