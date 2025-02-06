@@ -30,11 +30,13 @@ export const useRemoveLink = (folderId: string) => {
   });
 };
 
+// staleTime to 0 to get up to date expiration.
 export const useGetLink = (folderId: string) => {
   return useQuery({
     queryKey: ['shared', { folderId }],
     queryFn: () => shareServices.getLink(folderId),
     refetchOnWindowFocus: true,
     refetchOnMount: true,
+    staleTime: 0,
   });
 };
