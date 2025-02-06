@@ -3,6 +3,7 @@ import { getPublicSharedFolder } from '@/services/shareService';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router';
 import sadCloud from '../assets/sad-cloud.svg';
+import { calculateExpiration } from '@/lib/utils';
 
 export const SharePage = () => {
   const { linkId } = useParams();
@@ -20,6 +21,7 @@ export const SharePage = () => {
   return (
     <div>
       <h1>{data.folder.name}</h1>
+      <p>This link will expire in {calculateExpiration(data.expiresAt)}</p>
       {data.folder.files.length === 0 ? (
         <div className="flex flex-col w-full items-center justify-center">
           <img

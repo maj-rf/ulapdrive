@@ -15,11 +15,10 @@ import { Button } from '@/components/ui/button';
 import { useCreateLink, useGetLink, useRemoveLink } from '@/hooks/useShare';
 import { useParams } from 'react-router';
 import { Loading } from '../Loading';
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
+import { calculateExpiration, cn } from '@/lib/utils';
 import { Copy, CopyCheck } from 'lucide-react';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
-
+import { CommonContainer } from './CommonContainer';
 const LinkSchema = z.object({
   expiresAt: z.coerce.number().min(1).max(3),
 });
@@ -49,11 +48,11 @@ const CreateLinkForm = () => {
           name="expiresAt"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Link Duration</FormLabel>
+              <FormLabel>Share this folder</FormLabel>
               <FormControl>
                 <Input placeholder="" {...field} />
               </FormControl>
-              <FormDescription></FormDescription>
+              <FormDescription>Specify a link duration</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -88,32 +87,31 @@ const CopyButton = ({ text }: { text: string }) => {
   );
 };
 
-// TODO: extract a date diff function and reuse it in SharePage
-const SharedLinkContainer = () => {
+export const FilesFolderShare = () => {
   const { folderId } = useParams();
   const { data, isPending, error } = useGetLink(folderId as string);
   const removeLink = useRemoveLink(folderId as string);
   if (isPending)
     return (
-      <div className="w-full md:max-w-md mx-auto space-y-2 border text-primary bg-primary-foreground p-4 rounded-md mt-2">
+      <CommonContainer>
         <Loading />
-      </div>
+      </CommonContainer>
     );
   if (error) return <div>{error.message}</div>;
   if (!data) {
     return (
-      <div className="w-full md:max-w-md mx-auto space-y-2 border text-primary bg-primary-foreground p-4 rounded-md mt-2">
+      <CommonContainer>
         <CreateLinkForm />
-      </div>
+      </CommonContainer>
     );
   }
   const linkUrl = `${window.location.host}/share/${data.id}`;
   return (
-    <div className="w-full md:max-w-md mx-auto space-y-2 border text-primary bg-primary-foreground p-4 rounded-md mt-2">
-      <h1>Link will expire in: {new Date(data.expiresAt).toISOString()}</h1>
+    <CommonContainer>
+      <h1>Link will expire in: {calculateExpiration(data.expiresAt)}</h1>
       <div className="bg-accent mt-2 mb-2 rounded-sm">
-        <div className="flex items-center p-2">
-          <div className="truncate">{linkUrl}</div>
+        <div className="flex items-center px-4 p-1">
+          <div className="truncate w-20 flex-1">{linkUrl}</div>
           <CopyButton text={linkUrl} />
         </div>
       </div>
@@ -132,24 +130,6 @@ const SharedLinkContainer = () => {
           <Loading />
         </span>
       </Button>
-    </div>
-  );
-};
-
-export const FilesFolderShare = () => {
-  const [show, setShow] = useState(false);
-  return (
-    <>
-      {show ? (
-        <div>
-          <Button onClick={() => setShow(false)}>Close</Button>
-          <SharedLinkContainer />
-        </div>
-      ) : (
-        <Button className="w-fit" onClick={() => setShow(true)}>
-          Share
-        </Button>
-      )}
-    </>
+    </CommonContainer>
   );
 };
