@@ -9,6 +9,7 @@ import { useParams } from 'react-router';
 import { Loading } from '../Loading';
 import { cn } from '@/lib/utils';
 import { CommonContainer } from './CommonContainer';
+import { PropsWithChildren } from 'react';
 
 const validMimeTypes = [
   'image/jpeg',
@@ -34,7 +35,7 @@ const UploadSchema = z.object({
 
 type FileValues = z.infer<typeof UploadSchema>;
 
-export const FileUpload = () => {
+export const FileUpload = (props: PropsWithChildren) => {
   const form = useForm<FileValues>({
     resolver: zodResolver(UploadSchema),
     defaultValues: {
@@ -77,17 +78,20 @@ export const FileUpload = () => {
               </FormItem>
             )}
           />
-          <Button disabled={upload.isPending} className="grid place-items-center mt-2">
-            <span className={cn('col-[1] row-[1]', upload.isPending ? 'invisible' : 'visible')}>
-              Upload
-            </span>
-            <span
-              aria-label="Uploading..."
-              className={cn('col-[1] row-[1]', upload.isPending ? 'visible' : 'invisible')}
-            >
-              <Loading />
-            </span>
-          </Button>
+          <div className="flex gap-2 items-center mt-2">
+            <Button disabled={upload.isPending} className="grid place-items-center">
+              <span className={cn('col-[1] row-[1]', upload.isPending ? 'invisible' : 'visible')}>
+                Upload
+              </span>
+              <span
+                aria-label="Uploading..."
+                className={cn('col-[1] row-[1]', upload.isPending ? 'visible' : 'invisible')}
+              >
+                <Loading />
+              </span>
+            </Button>
+            {props.children}
+          </div>
         </form>
       </Form>
     </CommonContainer>

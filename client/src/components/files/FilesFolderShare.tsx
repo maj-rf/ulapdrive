@@ -19,13 +19,14 @@ import { calculateExpiration, cn } from '@/lib/utils';
 import { Copy, CopyCheck } from 'lucide-react';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { CommonContainer } from './CommonContainer';
+import { PropsWithChildren } from 'react';
 const LinkSchema = z.object({
   expiresAt: z.coerce.number().min(1).max(3),
 });
 
 type LinkFormValues = z.infer<typeof LinkSchema>;
 
-const CreateLinkForm = () => {
+const CreateLinkForm = (props: PropsWithChildren) => {
   const form = useForm<LinkFormValues>({
     resolver: zodResolver(LinkSchema),
     defaultValues: {
@@ -57,10 +58,11 @@ const CreateLinkForm = () => {
             </FormItem>
           )}
         />
-        <div className="flex w-full mt-1">
+        <div className="flex w-full gap-2 mt-1">
           <Button name="create-link-submit" disabled={createLink.isPending} type="submit">
             Submit
           </Button>
+          {props.children}
         </div>
       </form>
     </Form>
@@ -87,7 +89,7 @@ const CopyButton = ({ text }: { text: string }) => {
   );
 };
 
-export const FilesFolderShare = () => {
+export const FilesFolderShare = (props: PropsWithChildren) => {
   const { folderId } = useParams();
   const { data, isPending, error } = useGetLink(folderId as string);
   const removeLink = useRemoveLink(folderId as string);
@@ -101,7 +103,7 @@ export const FilesFolderShare = () => {
   if (!data) {
     return (
       <CommonContainer>
-        <CreateLinkForm />
+        <CreateLinkForm>{props.children}</CreateLinkForm>
       </CommonContainer>
     );
   }
@@ -115,21 +117,24 @@ export const FilesFolderShare = () => {
           <CopyButton text={linkUrl} />
         </div>
       </div>
-      <Button
-        onClick={() => removeLink.mutate(data.id)}
-        disabled={removeLink.isPending}
-        className="grid place-items-center"
-      >
-        <span className={cn('col-[1] row-[1]', removeLink.isPending ? 'invisible' : 'visible')}>
-          Remove Link
-        </span>
-        <span
-          aria-label="Uploading..."
-          className={cn('col-[1] row-[1]', removeLink.isPending ? 'visible' : 'invisible')}
+      <div className="flex gap-2 items-center mt-2">
+        <Button
+          onClick={() => removeLink.mutate(data.id)}
+          disabled={removeLink.isPending}
+          className="grid place-items-center"
         >
-          <Loading />
-        </span>
-      </Button>
+          <span className={cn('col-[1] row-[1]', removeLink.isPending ? 'invisible' : 'visible')}>
+            Remove Link
+          </span>
+          <span
+            aria-label="Uploading..."
+            className={cn('col-[1] row-[1]', removeLink.isPending ? 'visible' : 'invisible')}
+          >
+            <Loading />
+          </span>
+        </Button>
+        {props.children}
+      </div>
     </CommonContainer>
   );
 };

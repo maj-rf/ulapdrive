@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import { Button } from '../ui/button';
 import { FileUpload } from './FileUpload';
 import { FilesFolderShare } from './FilesFolderShare';
@@ -11,19 +11,19 @@ export const FilesOptions = () => {
     setMode(choice);
   };
 
-  const Option = () => {
+  const Option = (props: PropsWithChildren) => {
     switch (mode) {
       case 'upload':
-        return <FileUpload />;
+        return <FileUpload>{props.children}</FileUpload>;
       case 'share':
-        return <FilesFolderShare />;
+        return <FilesFolderShare>{props.children}</FilesFolderShare>;
       default:
         return null;
     }
   };
 
   return (
-    <section className="grid gap-2">
+    <section className="grid gap-2 place-items-center">
       <div className="space-x-2">
         <Button className="w-fit" onClick={() => handleMode('share')}>
           Share
@@ -31,13 +31,14 @@ export const FilesOptions = () => {
         <Button className="w-fit" onClick={() => handleMode('upload')}>
           New File
         </Button>
-        {mode !== 'closed' ? (
-          <Button className="w-fit" variant="outline" onClick={() => handleMode('closed')}>
+      </div>
+      <Option>
+        {mode && (
+          <Button type="button" variant="outline" onClick={() => handleMode('closed')}>
             Close
           </Button>
-        ) : null}
-      </div>
-      <Option />
+        )}
+      </Option>
     </section>
   );
 };
