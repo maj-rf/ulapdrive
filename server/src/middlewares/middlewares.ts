@@ -17,7 +17,7 @@ const handlePrismaError = (err: PrismaClientKnownRequestError) => {
       // handling invalid data errors
       return {
         status: 400,
-        message: `Please remove related data first. i.e files in folder`,
+        message: `Please remove related data first. i.e files and share link`,
       };
     case 'P2025':
       return {
