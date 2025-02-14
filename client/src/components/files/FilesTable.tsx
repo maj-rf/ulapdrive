@@ -29,7 +29,7 @@ export const FilesTable = () => {
         </div>
       ) : (
         <section className="relative overflow-x-auto shadow-md dark:shadow-primary-foreground sm:rounded-lg p-2">
-          <ul className="grid grid-cols-2 gap-2">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {data.map((file) => (
               <li key={file.id}>
                 <FileSingle {...file} />

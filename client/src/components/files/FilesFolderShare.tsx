@@ -96,7 +96,9 @@ export const FilesFolderShare = (props: PropsWithChildren) => {
   if (isPending)
     return (
       <CommonContainer>
-        <Loading />
+        <div className="flex items-center justify-center w-full">
+          <Loading />
+        </div>
       </CommonContainer>
     );
   if (error) return <div>{error.message}</div>;
