@@ -8,6 +8,8 @@ import { useFileUpload } from '@/hooks/useFile';
 import { useParams } from 'react-router';
 import { Loading } from '../Loading';
 import { cn } from '@/lib/utils';
+import { CommonContainer } from './CommonContainer';
+import { PropsWithChildren } from 'react';
 
 const validMimeTypes = [
   'image/jpeg',
@@ -33,7 +35,7 @@ const UploadSchema = z.object({
 
 type FileValues = z.infer<typeof UploadSchema>;
 
-export const FileUpload = () => {
+export const FileUpload = (props: PropsWithChildren) => {
   const form = useForm<FileValues>({
     resolver: zodResolver(UploadSchema),
     defaultValues: {
@@ -47,51 +49,51 @@ export const FileUpload = () => {
     const formData = new FormData();
     if (values.file_uploaded) formData.append('file_uploaded', values.file_uploaded);
     const done = await upload.mutateAsync({ obj: formData, folderId: folderId as string });
-    // TODO: RHF doesn't reset file inputs
     if (done) {
       form.reset({ ...form.getValues(), file_uploaded: undefined });
     }
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full md:max-w-md mx-auto space-y-2 border text-primary bg-primary-foreground p-4 rounded-md"
-        encType="multipart/form-data"
-      >
-        <FormField
-          control={form.control}
-          name="file_uploaded"
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          render={({ field: { value, onChange, ...fieldProps } }) => (
-            <FormItem>
-              <FormLabel>Your File</FormLabel>
-              <FormControl>
-                <Input
-                  {...fieldProps}
-                  placeholder="Upload a file"
-                  type="file"
-                  onChange={(event) => onChange(event.target.files && event.target.files[0])}
-                  accept=".doc,.jpg,.jpeg,.png,.webp,.zip,.gif,.pdf,.txt"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button disabled={upload.isPending} className="grid place-items-center">
-          <span className={cn('col-[1] row-[1]', upload.isPending ? 'invisible' : 'visible')}>
-            Upload
-          </span>
-          <span
-            aria-label="Uploading..."
-            className={cn('col-[1] row-[1]', upload.isPending ? 'visible' : 'invisible')}
-          >
-            <Loading />
-          </span>
-        </Button>
-      </form>
-    </Form>
+    <CommonContainer>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} encType="multipart/form-data">
+          <FormField
+            control={form.control}
+            name="file_uploaded"
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            render={({ field: { value, onChange, ...fieldProps } }) => (
+              <FormItem>
+                <FormLabel>Your File</FormLabel>
+                <FormControl>
+                  <Input
+                    {...fieldProps}
+                    placeholder="Upload a file"
+                    type="file"
+                    onChange={(event) => onChange(event.target.files && event.target.files[0])}
+                    accept=".doc,.jpg,.jpeg,.png,.webp,.zip,.gif,.pdf,.txt"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="flex gap-2 items-center mt-2">
+            <Button disabled={upload.isPending} className="grid place-items-center">
+              <span className={cn('col-[1] row-[1]', upload.isPending ? 'invisible' : 'visible')}>
+                Upload
+              </span>
+              <span
+                aria-label="Uploading..."
+                className={cn('col-[1] row-[1]', upload.isPending ? 'visible' : 'invisible')}
+              >
+                <Loading />
+              </span>
+            </Button>
+            {props.children}
+          </div>
+        </form>
+      </Form>
+    </CommonContainer>
   );
 };

@@ -5,7 +5,6 @@ export default function ErrorPage() {
   console.error(error);
 
   let errorMessage: string;
-
   if (isRouteErrorResponse(error)) {
     // error is type `ErrorResponse`
     errorMessage = error.data.message || error.statusText;
@@ -19,15 +18,18 @@ export default function ErrorPage() {
   }
 
   return (
-    <div id="error-page" className="h-screen bg-gradient-to-tr from-blue-400 to-emerald-400">
-      <div className="flex flex-col justify-center items-center h-full gap-2">
+    <div
+      id="error-page"
+      className="h-screen bg-gradient-to-tr from-blue-400 to-emerald-400 dark:from-blue-600 dark:to-emerald-600"
+    >
+      <div className="flex flex-col justify-center items-center h-full gap-2 z-0">
         <h1>Oops! 😭 </h1>
         <p>Sorry, an unexpected error has occurred.</p>
         <p className="font-bold text-xl">
           <i>{errorMessage}</i>
         </p>
         <Button>
-          <Link to="/auth">Back to login page</Link>
+          <Link to="/auth">Go Back</Link>
         </Button>
       </div>
     </div>

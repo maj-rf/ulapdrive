@@ -49,8 +49,11 @@ const RegisterForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex-1 max-w-md mx-auto space-y-5 border text-primary bg-primary-foreground p-4 rounded-md"
+        className="flex-1 max-w-md mx-auto space-y-5 border text-primary bg-primary-foreground p-4 rounded-md relative"
       >
+        <div className="flex items-center justify-center gap-2 w-fit bg-secondary text-2xl font-semibold absolute top-0 left-0 right-0 mx-auto p-2 rounded-2xl -translate-y-6">
+          <p>☁️New Account☁️</p>
+        </div>
         <FormField
           control={form.control}
           name="email"

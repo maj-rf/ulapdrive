@@ -32,3 +32,13 @@ export type File = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type SharedFolder = {
+  id: string;
+  folder: {
+    name: string;
+    files: Omit<File, 'ownerId' | 'folderId' | 'updatedAt'>[];
+  };
+  expiresAt: Date;
+  owner: Pick<PublicUser, 'displayName'>;
+};
