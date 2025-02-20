@@ -33,10 +33,8 @@ export const uploadToCloud = async (fileString: string, ownerId: number) => {
 export const deleteFromCloud = async (url: string) => {
   const { uploader } = cloudinary;
   const parsedUrl = new URL(url);
-  console.log(parsedUrl);
   const pathComponents = parsedUrl.pathname.split('/');
   const resourceType = pathComponents[2];
-  console.log(resourceType);
   const lastSegment = pathComponents.slice(-3).join('/');
   const public_id = lastSegment.replace(/\.[^/.]+$/, '');
   const res = await uploader.destroy(public_id, {
