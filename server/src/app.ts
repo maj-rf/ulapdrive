@@ -10,6 +10,8 @@ import { sharedFolderRouter } from './routes/v1/sharedFolder';
 import './middlewares/strategies';
 import { corsOptions } from './config/config';
 import cors from 'cors';
+import compression from 'compression';
+import helmet from 'helmet';
 
 const app = express();
 app.use(cors(corsOptions));
@@ -18,6 +20,8 @@ app.use(express.json());
 app.use(sessionHandler);
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(helmet());
+app.use(compression());
 
 app.get('/', (_req, res) => {
   res.json({ message: 'welcome to ulapdrive api' });

@@ -1,6 +1,7 @@
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { ErrorRequestHandler, Request, Response, NextFunction } from 'express';
 import createHttpError, { isHttpError } from 'http-errors';
+import { rateLimit } from 'express-rate-limit';
 
 const handlePrismaError = (err: PrismaClientKnownRequestError) => {
   switch (err.code) {
@@ -40,10 +41,8 @@ export const errorHandler: ErrorRequestHandler = (
   let errorMessage = 'An unknown error has occurred';
   let status = 500;
   if (error instanceof PrismaClientKnownRequestError) {
-    console.log(error.code);
     const { status: prismaStatus, message: prismaMessage } =
       handlePrismaError(error);
-    console.log({ prismaStatus, prismaMessage });
     status = prismaStatus;
     errorMessage = prismaMessage;
   }
@@ -71,3 +70,12 @@ export const isAuthenticated = (
   if (req.isAuthenticated()) next();
   else throw createHttpError(401, 'Unauthenticated');
 };
+
+export const limiter = rateLimit({
+  message: { error: 'Too many requests, please try again later.' },
+  windowMs: 1 * 60 * 1000, // 1 minute
+  limit: 25, // Limit each IP to 25 requests per `window` (here, per minute).
+  standardHeaders: 'draft-8', // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+  // store: ... , // Redis, Memcached, etc. See below.
+});
