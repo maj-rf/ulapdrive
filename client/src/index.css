@@ -79,4 +79,28 @@
   body {
     @apply bg-background text-foreground;
   }
+
+}
+
+th, td {
+  padding: 0.5rem;
+}
+
+th {
+  text-align: left;
+}
+
+@media (max-width: 650px) {
+  th {
+    display: none;
+  }
+
+  td {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  td::before{
+  content: attr(headers) ": ";
+  }
 }
