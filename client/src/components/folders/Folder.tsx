@@ -6,6 +6,7 @@ import { EllipsisVertical } from 'lucide-react';
 import { FolderUpdateForm } from './FolderUpdateForm';
 import { useState } from 'react';
 import { SidebarMenuButton, SidebarMenuAction } from '../ui/sidebar';
+import { Loading } from '../Loading';
 
 const FolderItem = ({ id, name }: { id: string; name: string }) => {
   return (
@@ -47,13 +48,19 @@ export const Folder = ({ id, name }: { id: string; name: string }) => {
                 <span className="sr-only">Open Folder Options</span>
               </SidebarMenuAction>
             </PopoverTrigger>
-            <PopoverContent className="flex flex-col p-0">
-              <Button variant="ghost" onClick={() => handleDelete(id)}>
-                Delete
-              </Button>
-              <Button variant="ghost" onClick={() => setEditing(true)}>
-                Edit Name
-              </Button>
+            <PopoverContent className="flex flex-col items-center p-0">
+              {remove.isPending ? (
+                <Loading />
+              ) : (
+                <>
+                  <Button variant="ghost" className="w-full" onClick={() => handleDelete(id)}>
+                    Delete
+                  </Button>
+                  <Button variant="ghost" className="w-full" onClick={() => setEditing(true)}>
+                    Edit Name
+                  </Button>
+                </>
+              )}
             </PopoverContent>
           </Popover>
         </div>

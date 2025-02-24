@@ -82,6 +82,21 @@
 
 }
 
+@layer utilities{
+  .dots {
+    --dot-color: hsl(var(--foreground) / 0.7);
+    --dot-size: 1px;
+    --dot-space: 22px;
+    --gradient-color: hsl(var(--background));
+    background: radial-gradient(circle, transparent 0%, var(--gradient-color) 100%),
+    linear-gradient(90deg, var(--gradient-color) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
+    linear-gradient(var(--gradient-color) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
+    var(--dot-color);
+         
+  }
+}
+
+
 th, td {
   padding: 0.5rem;
 }
@@ -95,9 +110,8 @@ th {
     display: none;
   }
 
-  td {
-    display: flex;
-    gap: 0.5rem;
+  tr {
+    display: block;
   }
 
   td::before{
