@@ -17,17 +17,32 @@ cloudinary.config({
 const storage = multer.memoryStorage();
 export const upload = multer({ storage });
 
-export const uploadToCloud = async (fileString: string, ownerId: number) => {
+export const uploadToCloud = async (
+  fileString: string,
+  ownerId: number,
+  folderId: string,
+) => {
   const { uploader } = cloudinary;
   const res = await uploader.upload(fileString, {
     folder: `ulapdrive/${ownerId.toString()}`,
     resource_type: 'auto',
+    tags: folderId,
   });
   const url = cloudinary.utils.url(res.public_id, {
     flags: 'attachment',
     resource_type: res.resource_type,
   });
   return url;
+};
+
+export const deleteManyFromCloud = async (tag: string) => {
+  try {
+    const { api } = cloudinary;
+    const deleted = await api.delete_resources_by_tag(tag);
+    return deleted;
+  } catch (error) {
+    console.log('Error in deleting from cloudinary', error);
+  }
 };
 
 export const deleteFromCloud = async (url: string) => {

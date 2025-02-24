@@ -17,7 +17,7 @@ model Session {
 }
 
 model User {
-  // User can have manu folders and files
+  // User can have many folders and files
   id           Int            @id @default(autoincrement())
   displayName  String
   email        String         @unique
@@ -32,7 +32,7 @@ model User {
 }
 
 model Folder {
-  // A folder belongs to a user and can contain manu files
+  // A folder belongs to a user and can contain many files
   id           String         @id @default(uuid())
   name         String
   ownerId      Int
@@ -55,7 +55,7 @@ model File {
   url       String
   owner     User     @relation(fields: [ownerId], references: [id])
   folderId  String
-  folder    Folder   @relation(fields: [folderId], references: [id])
+  folder    Folder   @relation(fields: [folderId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -68,7 +68,7 @@ model SharedFolder {
   userId    Int
   owner     User     @relation(fields: [userId], references: [id])
   folderId  String
-  folder    Folder   @relation(fields: [folderId], references: [id])
+  folder    Folder   @relation(fields: [folderId], references: [id], onDelete: Cascade)
   expiresAt DateTime
 
   @@map("shared_folders")

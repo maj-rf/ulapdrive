@@ -31,7 +31,7 @@ export const addNewFile = async (req: Request, res: Response) => {
 
   const base64 = Buffer.from(file.buffer).toString('base64');
   const dataURI = `data:${file.mimetype};base64,${base64}`;
-  const url = await uploadToCloud(dataURI, ownerId);
+  const url = await uploadToCloud(dataURI, ownerId, folderId as string);
 
   const uploadedFile = await fileService.addFile(
     folderId as string,

@@ -1,5 +1,8 @@
 import { RequestHandler } from 'express';
 import * as folderService from '../services/folder.service';
+import { deleteManyFromCloud } from '../utils/uploadUtil';
+import { getUserFilesInFolder } from '../services/file.service';
+
 export const getRootFolders: RequestHandler = async (req, res) => {
   const ownerId = req.user?.id;
   const folders = await folderService.getRootFolders(Number(ownerId));
@@ -38,6 +41,9 @@ export const updateUserFolder: RequestHandler = async (req, res) => {
 export const deleteUserFolder: RequestHandler = async (req, res) => {
   const { id } = req.params;
   const ownerId = req.user?.id;
+  const files = await getUserFilesInFolder(id as string, Number(ownerId));
+  // call cloud provider only if files exists in folder.
+  if (files.length > 0) await deleteManyFromCloud(id as string);
   const folder = await folderService.deleteFolder(
     id as string,
     Number(ownerId),
