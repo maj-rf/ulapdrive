@@ -83,7 +83,7 @@ const CopyButton = ({ text }: { text: string }) => {
   };
 
   return (
-    <Button variant="ghost" className="ml-auto" onClick={handleCopy(text)}>
+    <Button variant="ghost" onClick={handleCopy(text)}>
       {copiedText ? <CopyCheck /> : <Copy />}
     </Button>
   );
@@ -112,14 +112,16 @@ export const FilesFolderShare = (props: PropsWithChildren) => {
   const linkUrl = `${window.location.host}/share/${data.id}`;
   return (
     <CommonContainer>
-      <h1>Link will expire in: {calculateExpiration(data.expiresAt)}</h1>
-      <div className="bg-accent mt-2 mb-2 rounded-sm">
-        <div className="flex items-center px-4 p-1">
-          <div className="truncate w-20 flex-1">{linkUrl}</div>
+      <p className="text-sm font-medium leading-none mt-2">
+        Link will expire in: {calculateExpiration(data.expiresAt)}
+      </p>
+      <div className="border rounded-sm">
+        <div className="flex items-center justify-between px-4">
+          <p className="truncate text-sm">{linkUrl}</p>
           <CopyButton text={linkUrl} />
         </div>
       </div>
-      <div className="flex gap-2 items-center mt-2">
+      <div className="flex gap-2 items-center">
         <Button
           onClick={() => removeLink.mutate(data.id)}
           disabled={removeLink.isPending}

@@ -5,7 +5,7 @@ import { Link, useParams } from 'react-router';
 import sadCloud from '../assets/sad-cloud.svg';
 import { calculateExpiration, timeSince, calculateFileSize } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Download } from 'lucide-react';
+import { Download, Folder } from 'lucide-react';
 import { IconType } from '@/components/files/IconType';
 import { ModeToggle } from '@/components/ModeToggle';
 
@@ -22,7 +22,7 @@ export const SharePage = () => {
 
   if (isPending)
     return (
-      <div className="w-full sm:w-[800px] mx-auto ">
+      <div className="h-dvh grid place-items-center">
         <Loading />
       </div>
     );
@@ -32,7 +32,10 @@ export const SharePage = () => {
       <div className="max-w-[800px] mx-auto">
         <div className="px-4 py-2">
           <div className="flex gap-2 items-center">
-            <h1>{data.folder.name}</h1>
+            <div className="flex gap-1 items-center">
+              <Folder size={20} strokeWidth="1.5" />
+              <span>{data.folder.name}</span>
+            </div>
             <div className="ml-auto flex items-center gap-1">
               <ModeToggle />
               <Button asChild variant="outline">
@@ -40,7 +43,9 @@ export const SharePage = () => {
               </Button>
             </div>
           </div>
-          <p>This link will expire in {calculateExpiration(data.expiresAt)}</p>
+          <p className="text-muted-foreground">
+            This link will expire in {calculateExpiration(data.expiresAt)}
+          </p>
         </div>
         {data.folder.files.length === 0 ? (
           <div className="flex flex-col w-full items-center justify-center">
