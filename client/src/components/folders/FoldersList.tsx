@@ -39,7 +39,7 @@ const Folders = () => {
       {/** TODO: put create folder form here */}
       <SidebarMenu>
         {data.map((folder) => (
-          <SidebarMenuItem key={folder.id} className="">
+          <SidebarMenuItem key={folder.id}>
             <Folder id={folder.id} name={folder.name} />
           </SidebarMenuItem>
         ))}

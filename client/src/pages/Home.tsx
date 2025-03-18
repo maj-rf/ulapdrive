@@ -13,7 +13,7 @@ export function Home() {
             className="w-full h-full object-cover aspect-[1.85/1]"
           />
         </div>
-        <div className="bg-rose-300 rounded-lg border overflow-hidden">
+        <div className="bg-gradient-to-tr from-rose-300 to-red-400 rounded-lg border overflow-hidden">
           <div className="flex items-center justify-center h-full">
             <Rocket size={50} className="text-red-500" />
           </div>
@@ -24,7 +24,7 @@ export function Home() {
             <span className="text-2xl font-bold">Free</span>
           </div>
         </div>
-        <div className="bg-blue-400 text-white rounded-lg border overflow-hidden col-span-2">
+        <div className="bg-gradient-to-tl from-blue-500 to-cyan-300 dark:from-blue-800 dark:to-cyan-900 text-white rounded-lg border overflow-hidden col-span-2">
           <div className="flex flex-col items-center justify-center h-full aspect-[1.85/1] text-center">
             <p className="text-2xl font-bold p-4">
               A Dropbox / Google Drive lite for your personal use!

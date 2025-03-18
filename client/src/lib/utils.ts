@@ -24,7 +24,7 @@ export const timeSince = (date: Date) => {
   }
   interval = seconds / 2592000;
   if (interval > 1) {
-    return Math.floor(interval) + 'm';
+    return Math.floor(interval) + 'mo';
   }
   interval = seconds / 86400;
   if (interval > 1) {

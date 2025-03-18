@@ -31,11 +31,11 @@ export const Folder = ({ id, name }: { id: string; name: string }) => {
   };
 
   return (
-    <div>
+    <>
       {editing ? (
         <FolderUpdateForm name={name} id={id} setEditing={setEditing} />
       ) : (
-        <div>
+        <>
           <SidebarMenuButton asChild>
             <div className="has-[:first-child.active]:bg-background">
               <FolderItem id={id} name={name} />
@@ -63,8 +63,8 @@ export const Folder = ({ id, name }: { id: string; name: string }) => {
               )}
             </PopoverContent>
           </Popover>
-        </div>
+        </>
       )}
-    </div>
+    </>
   );
 };
