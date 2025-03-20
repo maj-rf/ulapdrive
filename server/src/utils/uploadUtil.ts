@@ -21,12 +21,15 @@ export const uploadToCloud = async (
   fileString: string,
   ownerId: number,
   folderId: string,
+  name: string,
 ) => {
   const { uploader } = cloudinary;
   const res = await uploader.upload(fileString, {
     folder: `ulapdrive/${ownerId.toString()}`,
     resource_type: 'auto',
     tags: folderId,
+    use_filename: true,
+    filename_override: name,
   });
   const url = cloudinary.utils.url(res.public_id, {
     flags: 'attachment',
