@@ -9,7 +9,7 @@ export const Breadcrumb = () => {
 
   return (
     <div className="inline-flex items-center gap-1">
-      <NavLink to="/" className="inline-flex gap-1 items-center">
+      <NavLink to="/" className="inline-flex gap-1 items-center hover:underline">
         <House size={20} strokeWidth="1.5" />
         <span>Home </span>
       </NavLink>

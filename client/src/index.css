@@ -109,11 +109,10 @@ th {
   th {
     display: none;
   }
-
   tr {
-    display: block;
+    display: flex;
+    flex-direction: column;
   }
-
   td::before{
   content: attr(headers) ": ";
   }

@@ -48,9 +48,11 @@ export const Folder = ({ id, name }: { id: string; name: string }) => {
                 <span className="sr-only">Open Folder Options</span>
               </SidebarMenuAction>
             </PopoverTrigger>
-            <PopoverContent className="flex flex-col items-center p-0">
+            <PopoverContent className="p-0 w-52">
               {remove.isPending ? (
-                <Loading />
+                <div className="flex justify-center items-center h-[74px]">
+                  <Loading />
+                </div>
               ) : (
                 <>
                   <Button variant="ghost" className="w-full" onClick={() => handleDelete(id)}>
