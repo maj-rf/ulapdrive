@@ -3,7 +3,7 @@ import { Rocket } from 'lucide-react';
 export function Home() {
   return (
     <div className="dots min-h-[calc(100vh-45px)] w-full">
-      <div className="grid grid-cols-2 gap-2 max-w-md mx-auto">
+      <div className="grid grid-cols-2 gap-2 max-w-md mx-auto px-2">
         <div className="bg-white dark:bg-gray-950 rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden col-span-2">
           <img
             src="/ulap.webp"
@@ -29,6 +29,15 @@ export function Home() {
             <p className="text-2xl font-bold p-4">
               A Dropbox / Google Drive lite for your personal use!
             </p>
+          </div>
+        </div>
+        <div className="col-span-2 bg-background px-2">
+          <div>
+            Ulapdrive is a simple, personal project of mine that showcases fullstack TypeScript
+            using React & NodeJS. Visit the code repository on{' '}
+            <a href="https://github.com/maj-rf/ulapdrive" className="underline">
+              Github
+            </a>
           </div>
         </div>
       </div>

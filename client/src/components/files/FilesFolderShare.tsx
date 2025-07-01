@@ -115,11 +115,9 @@ export const FilesFolderShare = (props: PropsWithChildren) => {
       <p className="text-sm font-medium leading-none mt-2">
         Link will expire in: {calculateExpiration(data.expiresAt)}
       </p>
-      <div className="border rounded-sm">
-        <div className="flex items-center justify-between px-4">
-          <p className="truncate text-sm">{linkUrl}</p>
-          <CopyButton text={linkUrl} />
-        </div>
+      <div className="grid grid-cols-[auto_30px] items-center px-4 w-full border rounded-sm">
+        <p className="truncate text-sm">{linkUrl}</p>
+        <CopyButton text={linkUrl} />
       </div>
       <div className="flex gap-2 items-center">
         <Button
