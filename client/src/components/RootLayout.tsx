@@ -8,13 +8,13 @@ export function RootLayout() {
     <SidebarProvider>
       <AppSideBar />
       <SidebarInset>
-        <main className="p-2">
-          <div className="inline-flex gap-4">
+        <div className="flex flex-col">
+          <div className="inline-flex gap-4 m-2">
             <SidebarTrigger />
             <Breadcrumb />
           </div>
           <Outlet />
-        </main>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );

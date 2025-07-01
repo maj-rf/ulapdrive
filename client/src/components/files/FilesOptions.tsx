@@ -4,22 +4,22 @@ import { FileUpload } from './FileUpload';
 import { FilesFolderShare } from './FilesFolderShare';
 type ModeOptions = 'closed' | 'share' | 'upload';
 
+const Option = (props: PropsWithChildren & { mode: ModeOptions }) => {
+  switch (props.mode) {
+    case 'upload':
+      return <FileUpload>{props.children}</FileUpload>;
+    case 'share':
+      return <FilesFolderShare>{props.children}</FilesFolderShare>;
+    default:
+      return null;
+  }
+};
+
 export const FilesOptions = () => {
   const [mode, setMode] = useState<ModeOptions>('closed');
 
   const handleMode = (choice: ModeOptions) => {
     setMode(choice);
-  };
-
-  const Option = (props: PropsWithChildren) => {
-    switch (mode) {
-      case 'upload':
-        return <FileUpload>{props.children}</FileUpload>;
-      case 'share':
-        return <FilesFolderShare>{props.children}</FilesFolderShare>;
-      default:
-        return null;
-    }
   };
 
   return (
@@ -32,12 +32,10 @@ export const FilesOptions = () => {
           New File
         </Button>
       </div>
-      <Option>
-        {mode && (
-          <Button type="button" variant="outline" onClick={() => handleMode('closed')}>
-            Close
-          </Button>
-        )}
+      <Option mode={mode}>
+        <Button type="button" variant="outline" onClick={() => handleMode('closed')}>
+          Close
+        </Button>
       </Option>
     </section>
   );

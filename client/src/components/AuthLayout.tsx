@@ -13,7 +13,7 @@ export const AuthLayout = () => {
     );
   if (data) return <Navigate to="/" />;
   return (
-    <section className="h-screen bg-gradient-to-tl from-gray-50 to-cyan-200 dark:from-gray-400 dark:to-cyan-700">
+    <section className="h-screen bg-cover bg-[url(tvr-cloud.webp)] bg-blend-multiply">
       <div className="flex flex-col items-center justify-center mx-auto h-full">
         <div className="w-full">
           <Outlet />

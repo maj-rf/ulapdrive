@@ -12,15 +12,12 @@ import { useState } from 'react';
 
 const FolderActionWithForm = () => {
   const [showForm, setShowForm] = useState(false);
-  const hideForm = () => {
-    setShowForm(false);
-  };
   return (
     <>
       <SidebarGroupAction onClick={() => setShowForm((prev) => !prev)}>
-        <Plus />
+        <Plus className={showForm ? 'rotate-45 transition-all' : 'rotate-0 transition-all'} />
       </SidebarGroupAction>
-      {showForm ? <FolderCreateForm hideForm={hideForm} /> : null}
+      {showForm ? <FolderCreateForm /> : null}
     </>
   );
 };
@@ -42,7 +39,7 @@ const Folders = () => {
       {/** TODO: put create folder form here */}
       <SidebarMenu>
         {data.map((folder) => (
-          <SidebarMenuItem key={folder.id} className="">
+          <SidebarMenuItem key={folder.id}>
             <Folder id={folder.id} name={folder.name} />
           </SidebarMenuItem>
         ))}

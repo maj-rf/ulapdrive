@@ -6,6 +6,7 @@ import { EllipsisVertical } from 'lucide-react';
 import { FolderUpdateForm } from './FolderUpdateForm';
 import { useState } from 'react';
 import { SidebarMenuButton, SidebarMenuAction } from '../ui/sidebar';
+import { Loading } from '../Loading';
 
 const FolderItem = ({ id, name }: { id: string; name: string }) => {
   return (
@@ -30,11 +31,11 @@ export const Folder = ({ id, name }: { id: string; name: string }) => {
   };
 
   return (
-    <div>
+    <>
       {editing ? (
         <FolderUpdateForm name={name} id={id} setEditing={setEditing} />
       ) : (
-        <div>
+        <>
           <SidebarMenuButton asChild>
             <div className="has-[:first-child.active]:bg-background">
               <FolderItem id={id} name={name} />
@@ -47,17 +48,25 @@ export const Folder = ({ id, name }: { id: string; name: string }) => {
                 <span className="sr-only">Open Folder Options</span>
               </SidebarMenuAction>
             </PopoverTrigger>
-            <PopoverContent className="flex flex-col p-0">
-              <Button variant="ghost" onClick={() => handleDelete(id)}>
-                Delete
-              </Button>
-              <Button variant="ghost" onClick={() => setEditing(true)}>
-                Edit Name
-              </Button>
+            <PopoverContent className="p-0 w-52">
+              {remove.isPending ? (
+                <div className="flex justify-center items-center h-[74px]">
+                  <Loading />
+                </div>
+              ) : (
+                <>
+                  <Button variant="ghost" className="w-full" onClick={() => handleDelete(id)}>
+                    Delete
+                  </Button>
+                  <Button variant="ghost" className="w-full" onClick={() => setEditing(true)}>
+                    Edit Name
+                  </Button>
+                </>
+              )}
             </PopoverContent>
           </Popover>
-        </div>
+        </>
       )}
-    </div>
+    </>
   );
 };

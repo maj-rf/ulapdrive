@@ -78,7 +78,7 @@ const LoginForm = () => {
           Submit
         </Button>
         <p>
-          Don't have an account?{' '}
+          <span className="text-muted-foreground">Don't have an account? </span>
           <Link to="/auth/register" className="font-medium underline text-blue-400">
             Register
           </Link>

@@ -115,7 +115,7 @@ const RegisterForm = () => {
           Submit
         </Button>
         <p>
-          Already have an account?{' '}
+          <span className="text-muted-foreground">Already have an account? </span>
           <Link to="/auth" className="font-medium underline text-blue-400">
             Login
           </Link>

@@ -23,7 +23,7 @@ const FolderSchema = z.object({
 
 type FolderFormValues = z.infer<typeof FolderSchema>;
 
-export const FolderCreateForm = ({ hideForm }: { hideForm: () => void }) => {
+export const FolderCreateForm = () => {
   const form = useForm<FolderFormValues>({
     resolver: zodResolver(FolderSchema),
     defaultValues: {
@@ -58,15 +58,6 @@ export const FolderCreateForm = ({ hideForm }: { hideForm: () => void }) => {
         <div className="flex w-full mt-1">
           <Button name="create-folder-submit-button" disabled={create.isPending} type="submit">
             Submit
-          </Button>
-          <Button
-            className="ml-auto"
-            name="create-folder-cancel-button"
-            disabled={create.isPending}
-            type="button"
-            onClick={hideForm}
-          >
-            Cancel
           </Button>
         </div>
       </form>

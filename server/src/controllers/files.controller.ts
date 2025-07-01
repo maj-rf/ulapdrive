@@ -28,10 +28,14 @@ export const addNewFile = async (req: Request, res: Response) => {
   if (!file || !ownerId) {
     throw createHttpError(401, 'Invalid File or Unauthenticated');
   }
-
   const base64 = Buffer.from(file.buffer).toString('base64');
   const dataURI = `data:${file.mimetype};base64,${base64}`;
-  const url = await uploadToCloud(dataURI, ownerId);
+  const url = await uploadToCloud(
+    dataURI,
+    ownerId,
+    folderId as string,
+    file.originalname.split('.')[0]!,
+  );
 
   const uploadedFile = await fileService.addFile(
     folderId as string,

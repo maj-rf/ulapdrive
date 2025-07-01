@@ -46,3 +46,15 @@ export async function deleteFile(
     },
   });
 }
+
+// export async function deleteAllFilesFromFolder(
+//   folderId: string,
+//   ownerId: number,
+// ) {
+//   return await db.file.deleteMany({
+//     where: {
+//       ownerId,
+//       folderId,
+//     },
+//   });
+// }
